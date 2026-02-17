@@ -3,196 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ES ONLY 1.0 - 偶像梦幻祭同人展</title>
+    <title>ES ONLY 1.0</title>
     <style>
-        /* 全局样式重置 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #fce4ec; /* 与海报背景融合的粉色 */
-            font-family: "Microsoft YaHei", sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        /* 容器：保持图片的比例 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #fce4ec; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: sans-serif; }
+        
         .poster-container {
             position: relative;
             width: 100%;
-            max-width: 800px; /* 限制最大宽度，防止图片过大 */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: white; /* 预览底色 */
         }
 
-        /* 背景图片样式 */
-        .poster-img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+        .poster-img { width: 100%; height: auto; display: block; }
 
-        /* --- 热区（点击区域）通用样式 --- */
-        .hotspot {
-            position: absolute;
-            cursor: pointer;
-            z-index: 10;
-            /* 调试模式：取消下面这行的注释，可以看到红色的框，方便你调整位置 */
-            /* border: 2px dashed rgba(255, 0, 0, 0.5); background: rgba(255, 0, 0, 0.1); */
-            transition: background 0.3s;
-            border-radius: 8px;
-        }
+        /* 热区样式 */
+        .hotspot { position: absolute; cursor: pointer; z-index: 10; border-radius: 5px; }
+        .hotspot:hover { background: rgba(255, 255, 255, 0.3); outline: 2px solid white; }
 
-        .hotspot:hover {
-            /* 鼠标悬停时的效果：稍微发亮，提示可点击 */
-            background-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
+        /* 位置微调 (基于 bg.png) */
+        .spot-lineup { top: 1%; right: 12%; width: 12%; height: 6%; }
+        .spot-info { top: 1%; right: 2%; width: 10%; height: 6%; }
+        .spot-special { top: 22%; left: 12%; width: 18%; height: 10%; transform: rotate(-10deg); }
+        .spot-fanworks { top: 38%; left: 5%; width: 20%; height: 12%; transform: rotate(-5deg); }
+        .spot-mainstage { top: 14%; right: 8%; width: 18%; height: 12%; transform: rotate(-5deg); }
+        .spot-creative { top: 34%; right: 4%; width: 20%; height: 12%; transform: rotate(5deg); }
+        .spot-evermore { top: 48%; right: 4%; width: 28%; height: 10%; transform: rotate(-15deg); }
+        .spot-location { top: 62%; left: 3%; width: 35%; height: 8%; }
 
-        /* --- 各个标签的具体位置 (根据图片估算的百分比) --- */
-        
-        /* 顶部导航: LINEUP */
-        .spot-lineup { top: 2%; right: 15%; width: 10%; height: 5%; }
-        /* 顶部导航: INFO */
-        .spot-info { top: 2%; right: 5%; width: 8%; height: 5%; }
+        /* 弹窗样式 */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 100; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
+        .modal-content { background: white; padding: 25px; width: 85%; max-width: 400px; border-radius: 15px; text-align: center; border: 3px solid #ff4081; }
+        .close-btn { margin-top: 15px; padding: 8px 20px; background: #ff4081; color: white; border: none; border-radius: 20px; cursor: pointer; }
 
-        /* 特殊招募 (左上粉色标签) */
-        .spot-special { top: 24%; left: 13%; width: 15%; height: 8%; transform: rotate(-10deg); }
-
-        /* 同人摊位 (左侧蓝色标签) */
-        .spot-fanworks { top: 40%; left: 5%; width: 18%; height: 12%; transform: rotate(-5deg); }
-
-        /* 主舞台 (右上淡蓝标签) */
-        .spot-mainstage { top: 15%; right: 10%; width: 15%; height: 10%; transform: rotate(-5deg); }
-
-        /* 创意舞台 (右侧粉色标签) */
-        .spot-creative { top: 35%; right: 5%; width: 18%; height: 10%; transform: rotate(5deg); }
-
-        /* Evermore Stars (右侧文字) */
-        .spot-evermore { top: 50%; right: 5%; width: 25%; height: 10%; transform: rotate(-15deg); }
-
-        /* 上海摩登天空 (左下绿色标签) */
-        .spot-location { top: 62%; left: 3%; width: 30%; height: 6%; }
-
-
-        /* --- 弹窗样式 (Modal) --- */
-        .modal-overlay {
-            display: none; /* 默认隐藏 */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 20px;
-            text-align: center;
-            position: relative;
-            border: 4px solid #6ec6ff; /* 主题蓝 */
-            box-shadow: 0 0 20px rgba(110, 198, 255, 0.5);
-            animation: popIn 0.3s ease-out;
-        }
-
-        @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .modal-title {
-            font-size: 24px;
-            color: #ff4081; /* 主题粉 */
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .modal-text {
-            font-size: 16px;
-            color: #333;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .close-btn {
-            background: #6ec6ff;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 20px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .close-btn:hover {
-            background: #ff4081;
-        }
-
+        /* 错误提示 */
+        #error-msg { color: red; padding: 20px; text-align: center; display: none; }
     </style>
 </head>
 <body>
 
     <div class="poster-container">
-        <img src="bg.png" alt="ES Only Event Poster" class="poster-img">
-
-        <div class="hotspot spot-lineup" onclick="showModal('LINEUP', '演出阵容即将公布！<br>敬请期待本次参展的所有社团与嘉宾名单。')"></div>
+        <div id="error-msg">⚠️ 图片加载失败！请确保 bg.png 和这个 HTML 文件在同一个文件夹里。</div>
         
-        <div class="hotspot spot-info" onclick="showModal('EVENT INFO', 'ES ONLY 1.0<br>日期：2026.07.19<br>注意事项：请携带身份证入场，场内禁止饮食。')"></div>
+        <img src="bg.png" alt="海报" class="poster-img" id="mainImg" onerror="handleError()">
 
-        <div class="hotspot spot-special" onclick="showModal('特殊招募 SPECIAL SCOUT', '这是特别的招募活动区域！<br>现场参与扭蛋或抽奖，有机会获得限定周边。')"></div>
-
-        <div class="hotspot spot-fanworks" onclick="showModal('同人摊位 FANWORKS BOOTH', '此处汇集了众多画手与写手的同人作品。<br>摊位分布图请在开展前一周查看官网更新。')"></div>
-
-        <div class="hotspot spot-mainstage" onclick="showModal('主舞台 MAIN STAGE', '主舞台将举办Cosplay走秀、随机宅舞挑战以及特别嘉宾访谈！<br>时间表：<br>13:00 开场<br>14:00 舞台剧')"></div>
-
-        <div class="hotspot spot-creative" onclick="showModal('创意舞台 CREATIVE STAGE', '这里是属于制作人们的自由舞台！<br>展示你的痛包、痛衣，或者进行应援棒教学。')"></div>
-
-        <div class="hotspot spot-evermore" onclick="showModal('ENSEMBLE STARS!!', 'Evermore Stars!!!<br>为了我们永远闪耀的群星。<br>让我们共同创造最美好的回忆。')"></div>
-
-        <div class="hotspot spot-location" onclick="showModal('上海摩登天空 Modern Sky LAB', '地址：上海市瑞虹天地月亮湾3F。<br>交通指引：地铁4号线临平路站。')"></div>
-    </div>
-
-    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-        <div class="modal-content" onclick="event.stopPropagation()"> <h2 class="modal-title" id="modalTitle">标题</h2>
-            <div class="modal-text" id="modalText">内容</div>
-            <button class="close-btn" onclick="closeModal()">关闭 / CLOSE</button>
-        </div>
+        <div class="hotspot spot-lineup" onclick="alert('阵容：Lineup Info')"></div>
+        <div class="hotspot spot-info" onclick="alert('信息：Event Info')"></div>
+        <div class="hotspot spot-special" onclick="alert('特殊招募详情')"></div>
+        <div class="hotspot spot-fanworks" onclick="alert('同人摊位分布')"></div>
+        <div class="hotspot spot-mainstage" onclick="alert('主舞台节目单')"></div>
+        <div class="hotspot spot-creative" onclick="alert('创意舞台活动')"></div>
+        <div class="hotspot spot-evermore" onclick="alert('Evermore Stars 专题')"></div>
+        <div class="hotspot spot-location" onclick="alert('上海摩登天空：地址详情')"></div>
     </div>
 
     <script>
-        // 打开弹窗函数
-        function showModal(title, content) {
-            const overlay = document.getElementById('modalOverlay');
-            const titleEl = document.getElementById('modalTitle');
-            const textEl = document.getElementById('modalText');
-
-            titleEl.textContent = title;
-            textEl.innerHTML = content; // 使用 innerHTML 允许换行 <br>
-
-            overlay.style.display = 'flex';
-        }
-
-        // 关闭弹窗函数
-        function closeModal(event) {
-            // 如果传入了 event，说明是点击背景关闭，不需要额外处理，直接隐藏
-            // 否则是点击按钮关闭
-            document.getElementById('modalOverlay').style.display = 'none';
+        function handleError() {
+            document.getElementById('mainImg').style.display = 'none';
+            document.getElementById('error-msg').style.display = 'block';
         }
     </script>
-
 </body>
 </html>
