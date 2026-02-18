@@ -30,21 +30,33 @@
             box-shadow: 0 15px 40px rgba(253, 168, 212, 0.3);
         }
 
-        /* 顶部社交图标 */
+        /* --- 图标组：重新定位到标题右侧 --- */
         .social-bar {
-            position: absolute; top: 2%; right: 4%; display: flex; gap: 10px; z-index: 20;
+            position: absolute; 
+            top: 2.5%;        /* 对应标题的高度 */
+            left: 28%;       /* 避开左侧 ES ONLY 1.0 文字的位置 */
+            display: flex; 
+            gap: 8px; 
+            z-index: 20;
         }
+        
+        /* 针对手机端微调标题右侧位置，防止重叠 */
+        @media (max-width: 600px) {
+            .social-bar { left: 32%; top: 2.2%; gap: 6px; }
+            .social-icon { width: 24px; height: 24px; font-size: 10px; }
+        }
+
         .social-icon {
-            width: 32px; height: 32px; border-radius: 8px; background: white;
+            width: 28px; height: 28px; border-radius: 6px; background: white;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1); cursor: pointer;
             transition: 0.2s; text-decoration: none; font-size: 11px; font-weight: bold;
         }
-        .social-icon:hover { transform: scale(1.1); }
-        .ic-bili { color: var(--bili-blue); border: 1.5px solid var(--bili-blue); }
+        .social-icon:hover { transform: scale(1.1); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .ic-bili { color: var(--bili-blue); border: 1px solid var(--bili-blue); }
         .ic-dy { color: white; background: var(--dy-black); }
         .ic-xhs { color: white; background: var(--xhs-red); }
-        .ic-qq { color: #12b7f5; border: 1.5px solid #12b7f5; }
+        .ic-qq { color: #12b7f5; border: 1px solid #12b7f5; }
 
         .poster-img { width: 100%; height: auto; display: block; pointer-events: none; }
 
@@ -73,7 +85,7 @@
         .marquee-text { font-size: 14px; font-weight: 900; color: white; padding: 0 20px; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* 弹窗样式 */
+        /* 弹窗系统 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.2); z-index: 100; justify-content: center; align-items: center;
@@ -83,7 +95,6 @@
             background: var(--glass); width: 92%; max-width: 450px; max-height: 85vh;
             border-radius: 30px; padding: 25px; border: 2px solid white;
             position: relative; overflow: hidden; display: flex; flex-direction: column;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
         }
         .modal-header { color: var(--es-pink); font-size: 1.3rem; font-weight: 900; text-align: center; margin-bottom: 20px; }
         .clickable-row {
@@ -91,17 +102,13 @@
             display: flex; justify-content: space-between; align-items: center;
             cursor: pointer; border: 1px solid #eee; font-weight: bold; font-size: 0.95rem;
         }
-        .clickable-row:hover { background: var(--es-blue); color: white; }
-
         .sub-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; border-radius: 30px; padding: 25px; z-index: 20; display: none; flex-direction: column; }
-        .sub-body { flex: 1; overflow-y: auto; color: #555; font-size: 0.9rem; line-height: 1.8; padding-right: 5px; }
+        .sub-body { flex: 1; overflow-y: auto; color: #555; font-size: 0.9rem; line-height: 1.8; }
         .sub-body b { color: var(--es-pink); }
         .group-tip { background: #fff0f3; padding: 12px; border-radius: 12px; border-left: 4px solid var(--es-pink); margin-bottom: 15px; color: #ff4081; font-weight: bold; font-size: 0.85rem; }
-
         .qq-qr-container { text-align: center; padding: 10px 0; }
-        .qr-placeholder { width: 180px; height: 180px; background: #f0f0f0; margin: 0 auto 15px; border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ccc; color: #999; }
+        .qr-placeholder { width: 160px; height: 160px; background: #f0f0f0; margin: 0 auto 15px; border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ccc; color: #999; }
         .qq-num { font-size: 1.6rem; color: #12b7f5; font-weight: 900; }
-
         .back-btn { color: var(--es-blue); cursor: pointer; font-weight: bold; margin-bottom: 15px; display: block; }
         .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 22px; color: #ccc; background:none; border:none; }
 
@@ -124,7 +131,7 @@
         <div class="social-bar">
             <a href="#" target="_blank" class="social-icon ic-bili">B站</a>
             <a href="#" target="_blank" class="social-icon ic-dy">抖音</a>
-            <a href="#" target="_blank" class="social-icon ic-xhs">小红书</a>
+            <a href="#" target="_blank" class="social-icon ic-xhs">薯</a>
             <div class="social-icon ic-qq" onclick="openQQPopup()">QQ</div>
         </div>
 
@@ -181,40 +188,36 @@
             mainstage: {
                 title: "★ 主舞台招募 (15-20组)",
                 items: [
-                    { label: "一、舞台设备详情", detail: TIP + "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (分辨率 1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" },
-                    { label: "二、招募须知", detail: TIP + "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲/舞蹈/组合/洗牌报名。<br>4. 舞蹈时间：3-8分钟。<br>5. 谢绝个人串团及新红月参演。" },
-                    { label: "三、报名流程", detail: TIP + "1. 加入QQ群：<b>1025885088</b>。<br>2. 填写在线预报名表，协商曲目。<br>3. 提交材料：报名表+审核视频。<br>4. 截止时间：2026.05.03 12:00。<br>5. 结果公布：2026.05.05 24:00。" }
+                    { label: "一、舞台设备详情", detail: TIP + "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" },
+                    { label: "二、招募须知", detail: TIP + "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲/舞蹈/组合/洗牌报名。<br>4. 服装须为官方款式。<br>5. 舞蹈时间：3-8分钟。<br>6. 谢绝个人串团及新红月参演。" },
+                    { label: "三、报名流程", detail: TIP + "1. 加入QQ群：<b>1025885088</b>。<br>2. 填写在线预报名表。<br>3. 提交：报名表+审核视频。<br>4. 截止：2026.05.03 12:00。<br>5. 结果：2026.05.05 公布。" }
                 ]
             },
             creative: {
-                title: "★ 创意舞台 (5+5组)",
+                title: "★ 创意舞台 （3-5组）",
                 items: [
-                    { label: "一、舞台剧类 (5组)", detail: TIP + "<b>内容：</b>须与ES相关，鼓励改编原创（如月永雷欧x德扎等）。禁止大型搬运道具。" },
-                    { label: "二、音乐表演类 (5组)", detail: TIP + "<b>形式：</b>翻奏、纯器乐版、合唱、乐队(Live)。<br><b>要求：</b>仅限ES官方歌曲。需自备乐器，不接受纯音源伴奏乐队。" },
-                    { label: "三、报名方式", detail: TIP + "加入QQ群：<b>1025885088</b> 获取报名表及视频送审规则。截止 2026.05.03。" }
+                    { label: "一、舞台剧类 ", detail: TIP + "内容须与ES相关，鼓励改编原创（如月永雷欧x德扎等）。" },
+                    { label: "二、音乐表演类 ", detail: TIP + "形式：翻奏、纯器乐版、合唱、乐队(Live)。<br>要求：仅限ES官方歌曲。需自备乐器，不接受纯伴奏乐队。" }
                 ]
             },
             fanworks: {
                 title: "★ 同人摊位招募 (3-6个)",
                 items: [
-                    { label: "一、申摊须知", detail: TIP + "<b>支持：</b>同人志、轻周边。<br><b>严禁：</b>盗图、官图二创、AI产出、食品、官方寄售。<br><b>权益：</b>摊主证x2，桌子x1，椅子x2，普票权益x2。" },
-                    { label: "二、申请流程", detail: TIP + "1. 加入QQ群：<b>1081280182</b>。<br>2. 提交「报名表+预览图」至邮箱：evermorestars@163.com。<br>3. 截止时间：2026.05.15。" }
+                    { label: "一、申摊须知", detail: TIP + "支持同人志、轻周边。严禁盗图、AI产出及官方寄售。负责人须成年。<br><b>权益：</b>摊主证x2，桌子x1，椅子x2，普票权益x2。" },
+                    { label: "二、申请流程", detail: TIP + "进群 <b>1081280182</b>，提交报名表至 evermorestars@163.com。截止 2026.05.15。" }
                 ]
             },
             location: {
                 title: "★ 场地指引",
                 items: [
-                    { label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b><br>瑞虹天地月亮湾3F，地铁4号线直达。<br>※ 正式一宣将于2.21日公布。" },
-                    { label: "预览效果图", detail: `<div class="venue-grid"><div class="venue-box">舞台效果</div><div class="venue-box">全场预览</div><div class="venue-box">候场区</div><div class="venue-box">休息室</div></div>` }
+                    { label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b><br>瑞虹天地月亮湾3F，地铁4号线直达。<br>※ 详情于2.21日公布。" },
+                    { label: "预览效果图", detail: `<div class="venue-grid"><div class="venue-box">舞台</div><div class="venue-box">全场</div><div class="venue-box">候场</div><div class="venue-box">休息室</div></div>` }
                 ]
             },
-            info: { 
-                title: "★ 品牌内涵", 
-                items: [{ label: "主题: CALL", detail: "<b>口号：</b>你注视的光芒，因你而闪耀。<br>这是一篇由你献上的未读章节。" }] 
-            },
+            info: { title: "★ 品牌内涵", items: [{ label: "主题: CALL", detail: "你注视的光芒，因你而闪耀。这是一篇由你献上的未读章节。" }] },
             evermore: { title: "★ 互动玩法", items: [{ label: "未读章节", detail: "更多现场惊喜玩法，进群解锁第一手资讯。" }] },
             special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "特殊招募计划详情请关注官群。" }] },
-            lineup: { title: "★ 阵容公告", items: [{ label: "嘉宾阵容", detail: "阵容即将揭晓，敬请关注。" }] }
+            lineup: { title: "★ 阵容公告", items: [{ label: "嘉宾阵容", detail: "阵容即将揭晓。" }] }
         };
 
         function openMenu(key) {
