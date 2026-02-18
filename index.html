@@ -16,17 +16,14 @@
             --qq-blue: #12b7f5;
         }
 
-        /* 强制禁用移动端自动字体缩放 */
         html { -webkit-text-size-adjust: none; text-size-adjust: none; }
-
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             background-color: #fce4ec; 
             display: flex; flex-direction: column; align-items: center; 
             min-height: 100vh; font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-            padding: 10px 10px 60px 10px;
-            overflow-x: hidden;
+            padding: 10px 10px 60px 10px; overflow-x: hidden;
         }
 
         .poster-container {
@@ -35,33 +32,19 @@
             box-shadow: 0 15px 40px rgba(253, 168, 212, 0.3);
         }
 
-        /* --- 彻底修复 1: Icon 在所有设备尺寸完全一致 --- */
+        /* --- Icon 尺寸极致锁定 --- */
         .social-bar {
-            position: absolute; 
-            top: 1%;           
-            left: 20%;         
-            display: flex; 
-            gap: 15px; /* 稍微缩小间距以适配小屏 */
-            z-index: 20;
+            position: absolute; top: 1%; left: 20%; display: flex; gap: 12px; z-index: 20;
         }
-
         .social-link {
-            color: #ccc; 
-            width: 24px;   /* 强制盒子宽度 */
-            height: 24px;  /* 强制盒子高度 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s; 
-            text-decoration: none;
+            color: #ccc; width: 20px; height: 20px; /* 进一步收紧尺寸 */
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s; text-decoration: none;
         }
-        /* 强制覆盖所有可能的图标缩放 */
         .social-link i { 
-            font-size: 18px !important; 
-            line-height: 1 !important;
-            display: block !important;
+            font-size: 16px !important; /* 强制像素级大小 */
+            line-height: 1 !important; width: auto !important; height: auto !important;
         }
-        
         .social-link:hover { transform: scale(1.2); }
         .hover-bili:hover { color: var(--bili-blue); }
         .hover-dy:hover { color: #000; }
@@ -70,6 +53,7 @@
 
         .poster-img { width: 100%; height: auto; display: block; pointer-events: none; }
 
+        /* 热区保持不变 */
         .hotspot { position: absolute; cursor: pointer; z-index: 10; border-radius: 50%; }
         .spot-lineup { top: 1%; right: 11%; width: 10%; height: 4%; }
         .spot-info { top: 1%; right: 2%; width: 7%; height: 4%; }
@@ -80,7 +64,7 @@
         .spot-evermore { top: 51%; right: 0.5%; width: 28%; height: 4%; transform: rotate(-24deg); }
         .spot-location { top: 62%; left: 2.5%; width: 30%; height: 4%; }
 
-        /* --- 彻底修复 2: 跑马灯速率统一 --- */
+        /* --- 跑马灯：改用像素级位移 --- */
         .marquee-overlay {
             position: absolute; width: 200%; left: -50%; height: 32px;
             overflow: hidden; display: flex; align-items: center; pointer-events: none; z-index: 5;
@@ -89,70 +73,37 @@
         .m-pink { top: 94%; background: var(--es-pink); transform: rotate(5deg); }
         
         .marquee-content { 
-            display: flex; 
-            white-space: nowrap; 
-            /* 使用 will-change 优化性能，防止手机端掉帧感 */
-            will-change: transform;
-            animation: marquee-fix 30s linear infinite;
+            display: flex; white-space: nowrap; will-change: transform;
+            /* 动画名称改为由脚本注入 */
+            animation: none; 
         }
-        
-        .marquee-text { 
-            font-size: 14px; 
-            font-weight: 900; 
-            color: white; 
-            padding: 0 40px; /* 增加边距让间断感消失 */
-        }
-        
-        /* 使用 transform 匀速平滑移动 */
-        @keyframes marquee-fix { 
-            from { transform: translateX(0); } 
-            to { transform: translateX(-50%); } 
-        }
+        .marquee-text { font-size: 14px; font-weight: 900; color: white; padding: 0 30px; }
 
+        /* 弹窗及其他样式保持不变 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.3); z-index: 100; justify-content: center; 
-            align-items: flex-start;
-            padding-top: 5vh; padding-bottom: 5vh;
-            overflow-y: auto;
+            background: rgba(0,0,0,0.3); z-index: 100; justify-content: center; align-items: flex-start;
+            padding-top: 5vh; padding-bottom: 5vh; overflow-y: auto;
         }
         .modal-card {
-            background: var(--glass); width: 92%; max-width: 500px; 
-            height: auto; 
+            background: var(--glass); width: 92%; max-width: 500px; height: auto; 
             border-radius: 30px; padding: 25px; border: 2px solid white;
             position: relative; display: flex; flex-direction: column;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            margin: auto;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15); margin: auto;
         }
         .modal-header { color: var(--es-pink); font-size: 1.3rem; font-weight: 900; text-align: center; margin-bottom: 20px; }
-        
         .clickable-row {
             background: #fff; padding: 15px 20px; border-radius: 15px; margin-bottom: 12px;
             display: flex; justify-content: space-between; align-items: center;
             cursor: pointer; border: 1px solid #eee; font-weight: bold;
         }
-
-        .sub-layer { 
-            position: absolute; top: 0; left: 0; width: 100%; min-height: 100%; 
-            background: white; border-radius: 30px; padding: 25px; z-index: 20; 
-            display: none; flex-direction: column; 
-        }
-        .sub-body { 
-            color: #555; font-size: 0.95rem; 
-            line-height: 1.8; padding-bottom: 20px;
-        }
-        
+        .sub-layer { position: absolute; top: 0; left: 0; width: 100%; min-height: 100%; background: white; border-radius: 30px; padding: 25px; z-index: 20; display: none; flex-direction: column; }
+        .sub-body { color: #555; font-size: 0.95rem; line-height: 1.8; padding-bottom: 20px; }
         .group-tip { background: #fff0f3; padding: 12px; border-radius: 12px; border-left: 4px solid var(--es-pink); margin-bottom: 15px; color: #ff4081; font-weight: bold; font-size: 0.85rem; }
-        .modal-footer-notice {
-            margin-top: 15px; padding-top: 15px; border-top: 1px dashed #eee;
-            font-size: 0.75rem; color: #999; line-height: 1.5;
-        }
-
+        .modal-footer-notice { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #eee; font-size: 0.75rem; color: #999; line-height: 1.5; }
         .back-btn { color: var(--es-blue); cursor: pointer; font-weight: bold; margin-bottom: 15px; display: block; }
         .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 22px; color: #ccc; background:none; border:none; z-index: 30; }
-
         .site-footer { margin-top: 30px; text-align: center; font-size: 11px; color: #b388ff; letter-spacing: 1px; }
-
         .venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
         .venue-box { background: #fdf2f5; border-radius: 10px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: #ffadbc; border: 1px dashed #ffadbc; }
     </style>
@@ -183,7 +134,7 @@
     </div>
 
     <div class="site-footer">
-        2026 EvermoreStars | Design by Everstars Group|ILLUS:ALAN阿兰 WEB：DESIGN:林焰 BUILD：烧鸭 | Inspired by EnsembleStars!!
+        2026 EvermoreStars | Design by Everstars Group | ILLUS:ALAN阿兰 WEB：DESIGN:林焰 BUILD：烧鸭 | Inspired by EnsembleStars!!
     </div>
 
     <div class="modal-overlay" id="overlay" onclick="closeAll()">
@@ -193,7 +144,6 @@
                 <div class="modal-header" id="menuTitle">TITLE</div>
                 <div id="itemList"></div>
             </div>
-            
             <div id="qqView" style="display:none;">
                 <div class="modal-header">官方游客交流群</div>
                 <div style="text-align: center;">
@@ -201,55 +151,24 @@
                     <div style="font-size:1.6rem; color:#12b7f5; font-weight:900;">1025885088</div>
                 </div>
             </div>
-
             <div class="sub-layer" id="subLayer">
                 <span class="back-btn" onclick="closeSub()">← 返回</span>
                 <div class="group-tip">💡 详细内容及报名表格请务必进群查看。</div>
                 <div class="modal-header" id="subTitle">详情</div>
                 <div class="sub-body" id="subBody"></div>
-                <div class="modal-footer-notice">
-                    最终解释权归Evermorestars策划组所有。<br>
-                    如有任何疑问及事宜请联系：<br>
-                    evermorestars@163.com / QQ：1574511962
-                </div>
+                <div class="modal-footer-notice">最终解释权归Evermorestars策划组所有。<br>如有任何疑问及事宜请联系：<br>evermorestars@163.com / QQ：1574511962</div>
             </div>
         </div>
     </div>
 
     <script>
         const config = {
-            mainstage: {
-                title: "★ 主舞台招募 (15-20组)",
-                items: [
-                    { label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" },
-                    { label: "二、招募须知", detail: "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲/舞蹈/组合/洗牌报名。<br>4. 演出服装须为官方款式。<br>5. 舞蹈时间：3-8分钟。<br>6. 谢绝个人串团及新红月参演。" },
-                    { label: "三、报名流程", detail: "1. 加入QQ群：<b>1025885088</b>。<br>2. 填写在线预报名表，协商曲目。<br>3. 提交材料：报名表+审核视频。<br>4. 截止时间：2026.05.03 12:00。<br>5. 结果公布：2026.05.05 24:00。" }
-                ]
-            },
-            creative: {
-                title: "★ 创意舞台 (3-5组)",
-                items: [
-                    { label: "一、舞台剧类 ", detail: "<b>内容：</b>须与ES相关，鼓励改编原创。禁止大型搬运道具。" },
-                    { label: "二、音乐表演类 ", detail: "<b>形式：</b>翻奏、纯器乐版、合唱、乐队(Live)。<br><b>要求：</b>仅限ES官方歌曲。需自备乐器，不接受纯音源伴奏乐队。" },
-                    { label: "三、报名方式", detail: "进群 <b>1025885088</b> 获取报名表及视频送审规则。截止 2026.05.03。" }
-                ]
-            },
-            fanworks: {
-                title: "★ 同人摊位招募 (3-6个)",
-                items: [
-                    { label: "一、申摊须知", detail: "<b>支持：</b>同人志、轻周边。<br><b>严禁：</b>盗图、官图二创、AI产出、食品、官方寄售。<br><b>要求：</b>负责人须成年。<br><b>权益：</b>摊主证x2，桌子x1，椅子x2，普票权益x2。" },
-                    { label: "二、申请流程", detail: "1. 加入QQ群：<b>1081280182</b>。<br>2. 提交「报名表+预览图」至邮箱：evermorestars@163.com。<br>3. 截止时间：2026.05.15。" }
-                ]
-            },
-            location: {
-                title: "★ 场地指引",
-                items: [
-                    { label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b><br>瑞虹天地月亮湾3F，地铁4号线直达。<br>" },
-                    { label: "预览效果图", detail: `<div class="venue-grid"><div class="venue-box">舞台效果</div><div class="venue-box">全场预览</div><div class="venue-box">候场区</div><div class="venue-box">休息室</div></div>` }
-                ]
-            },
-            info: { title: "★ 品牌内涵", items: [{ label: "主题: CALL", detail: "你注视的光芒，因你而闪耀。这是一篇由你献上的未读章节。" }] },
-            evermore: { title: "★ 互动玩法", items: [{ label: "未读章节", detail: "更多现场惊喜玩法，进群解锁第一手资讯。" }] },
+            mainstage: { title: "★ 主舞台招募 (15-20组)", items: [{ label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" }, { label: "二、招募须知", detail: "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲报名。<br>4. 演出服装须为官方款式。<br>5. 舞蹈时间：3-8分钟。<br>6. 谢绝个人串团及新红月参演。" }, { label: "三、报名流程", detail: "1. 加入QQ群：<b>1025885088</b>。<br>2. 填写在线预报名表。<br>3. 提交审核视频。<br>4. 截止时间：2026.05.03。" }] },
+            creative: { title: "★ 创意舞台 (3-5组)", items: [{ label: "一、舞台剧类 ", detail: "须与ES相关，鼓励改编原创。" }, { label: "二、音乐表演类 ", detail: "形式：翻奏、纯器乐版、合唱、乐队。<br>要求：仅限ES官方歌曲。" }, { label: "三、报名方式", detail: "进群获取报名表，截止 2026.05.03。" }] },
+            fanworks: { title: "★ 同人摊位招募 (3-6个)", items: [{ label: "一、申摊须知", detail: "支持同人志、轻周边。严禁盗图、AI产出。" }, { label: "二、申请流程", detail: "1. 加入QQ群：<b>1081280182</b>。<br>2. 提交申请至邮箱。<br>3. 截止时间：2026.05.15。" }] },
+            location: { title: "★ 场地指引", items: [{ label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b><br>瑞虹天地月亮湾3F，地铁4号线直达。" }, { label: "预览效果图", detail: `<div class="venue-grid"><div class="venue-box">舞台效果</div><div class="venue-box">全场预览</div><div class="venue-box">候场区</div><div class="venue-box">休息室</div></div>` }] },
+            info: { title: "★ 品牌内涵", items: [{ label: "主题: CALL", detail: "你注视的光芒，因你而闪耀。" }] },
+            evermore: { title: "★ 互动玩法", items: [{ label: "未读章节", detail: "更多现场惊喜玩法，进群解锁。" }] },
             special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "详情请关注官群。" }] },
             lineup: { title: "★ 阵容公告", items: [{ label: "嘉宾阵容", detail: "阵容即将揭晓。" }] }
         };
@@ -264,28 +183,49 @@
             document.getElementById('itemList').innerHTML = html;
             document.getElementById('overlay').style.display = 'flex';
         }
-
         function openQQPopup() {
             document.getElementById('mainView').style.display = 'none';
             document.getElementById('subLayer').style.display = 'none';
             document.getElementById('qqView').style.display = 'block';
             document.getElementById('overlay').style.display = 'flex';
         }
-
         function openSub(title, content) {
             document.getElementById('subTitle').innerText = title;
             document.getElementById('subBody').innerHTML = content;
             document.getElementById('subLayer').style.display = 'flex';
             document.getElementById('overlay').scrollTop = 0; 
         }
-
         function closeSub() { document.getElementById('subLayer').style.display = 'none'; }
         function closeAll() { document.getElementById('overlay').style.display = 'none'; closeSub(); }
 
-        const t = "EVERMORESTARS JULY 19 TH • ";
-        const mHtml = `<span class="marquee-text">${t.repeat(20)}</span><span class="marquee-text">${t.repeat(20)}</span>`;
-        document.getElementById('m1').innerHTML = mHtml;
-        document.getElementById('m2').innerHTML = mHtml;
+        // --- 跑马灯逻辑：强制全设备同步速度 ---
+        window.onload = function() {
+            const text = "EVERMORESTARS JULY 19 TH • ";
+            const container1 = document.getElementById('m1');
+            const container2 = document.getElementById('m2');
+            
+            // 填充内容
+            const content = `<span class="marquee-inner">${text.repeat(15)}</span>`;
+            container1.innerHTML = content + content;
+            container2.innerHTML = content + content;
+
+            // 计算一组文字的实际宽度（像素）
+            const innerSpan = container1.querySelector('.marquee-inner');
+            const scrollWidth = innerSpan.offsetWidth;
+
+            // 动态注入动画：在 30s 内仅移动一组文字的距离
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes marquee-sync-px {
+                    from { transform: translateX(0); }
+                    to { transform: translateX(-${scrollWidth}px); }
+                }
+                .marquee-content {
+                    animation: marquee-sync-px 30s linear infinite !important;
+                }
+            `;
+            document.head.appendChild(style);
+        };
     </script>
 </body>
 </html>
