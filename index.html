@@ -22,8 +22,8 @@
             background-color: #fce4ec; 
             display: flex; flex-direction: column; align-items: center; 
             min-height: 100vh; font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-            padding: 10px 10px 60px 10px; /* 增加底部间距 */
-            overflow-x: hidden; /* 防止横向抖动 */
+            padding: 10px 10px 60px 10px;
+            overflow-x: hidden;
         }
 
         .poster-container {
@@ -32,7 +32,7 @@
             box-shadow: 0 15px 40px rgba(253, 168, 212, 0.3);
         }
 
-        /* --- Icon 坐标微调 --- */
+        /* --- 修复 1: Icon 手机端大小与 PC 保持一致 --- */
         .social-bar {
             position: absolute; 
             top: 1%;           
@@ -43,8 +43,15 @@
         }
 
         .social-link {
-            color: #ccc; font-size: 22px; transition: all 0.3s; text-decoration: none;
+            color: #ccc; 
+            font-size: 22px; /* 强制固定像素，不随移动端缩放 */
+            transition: all 0.3s; 
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+        .social-link i { font-size: 22px !important; } /* 确保图标字体不受全局干扰 */
         .social-link:hover { transform: scale(1.2); }
         .hover-bili:hover { color: var(--bili-blue); }
         .hover-dy:hover { color: #000; }
@@ -63,32 +70,43 @@
         .spot-evermore { top: 51%; right: 0.5%; width: 28%; height: 4%; transform: rotate(-24deg); }
         .spot-location { top: 62%; left: 2.5%; width: 30%; height: 4%; }
 
-        /* 跑马灯 */
+        /* --- 修复 2: 跑马灯动画速度同步 --- */
         .marquee-overlay {
-            position: absolute; width: 120%; left: -10%; height: 32px;
+            position: absolute; width: 150%; left: -25%; height: 32px;
             overflow: hidden; display: flex; align-items: center; pointer-events: none; z-index: 5;
         }
         .m-blue { top: 88%; background: var(--es-blue); transform: rotate(-8deg); }
         .m-pink { top: 94%; background: var(--es-pink); transform: rotate(5deg); }
-        .marquee-content { display: flex; white-space: nowrap; animation: marquee 30s linear infinite; }
+        
+        .marquee-content { 
+            display: flex; 
+            white-space: nowrap; 
+            width: fit-content;
+            animation: marquee-sync 30s linear infinite; /* 强制 30s */
+            will-change: transform;
+        }
+        
         .marquee-text { font-size: 14px; font-weight: 900; color: white; padding: 0 20px; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        
+        @keyframes marquee-sync { 
+            0% { transform: translate3d(0, 0, 0); } 
+            100% { transform: translate3d(-50%, 0, 0); } 
+        }
 
-        /* 弹窗核心优化：高度自适应，去掉内部滚动条 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.3); z-index: 100; justify-content: center; 
-            align-items: flex-start; /* 改为从顶部开始排布，方便长内容滑动 */
+            align-items: flex-start;
             padding-top: 5vh; padding-bottom: 5vh;
-            overflow-y: auto; /* 允许整个遮罩层上下滑动查看长卡片 */
+            overflow-y: auto;
         }
         .modal-card {
             background: var(--glass); width: 92%; max-width: 500px; 
-            height: auto; /* 高度自适应 */
+            height: auto; 
             border-radius: 30px; padding: 25px; border: 2px solid white;
             position: relative; display: flex; flex-direction: column;
             box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            margin: auto; /* 居中显示 */
+            margin: auto;
         }
         .modal-header { color: var(--es-pink); font-size: 1.3rem; font-weight: 900; text-align: center; margin-bottom: 20px; }
         
@@ -98,7 +116,6 @@
             cursor: pointer; border: 1px solid #eee; font-weight: bold;
         }
 
-        /* 详情层优化：不再限制内部高度 */
         .sub-layer { 
             position: absolute; top: 0; left: 0; width: 100%; min-height: 100%; 
             background: white; border-radius: 30px; padding: 25px; z-index: 20; 
@@ -230,7 +247,7 @@
             data.items.forEach(item => { html += `<div class="clickable-row" onclick="openSub('${item.label}', \`${item.detail}\`)">${item.label}</div>`; });
             document.getElementById('itemList').innerHTML = html;
             document.getElementById('overlay').style.display = 'flex';
-            window.scrollTo(0, 0); // 打开时重置页面滚动
+            window.scrollTo(0, 0); 
         }
 
         function openQQPopup() {
@@ -244,14 +261,15 @@
             document.getElementById('subTitle').innerText = title;
             document.getElementById('subBody').innerHTML = content;
             document.getElementById('subLayer').style.display = 'flex';
-            document.getElementById('overlay').scrollTop = 0; // 切换详情时回到弹窗顶部
+            document.getElementById('overlay').scrollTop = 0; 
         }
 
         function closeSub() { document.getElementById('subLayer').style.display = 'none'; }
         function closeAll() { document.getElementById('overlay').style.display = 'none'; closeSub(); }
 
         const t = "EVERMORESTARS JULY 19 TH • ";
-        const mHtml = `<span class="marquee-text">${t.repeat(12)}</span><span class="marquee-text">${t.repeat(12)}</span>`;
+        // 使用更长倍数的重复确保动画平滑
+        const mHtml = `<span class="marquee-text">${t.repeat(16)}</span><span class="marquee-text">${t.repeat(16)}</span>`;
         document.getElementById('m1').innerHTML = mHtml;
         document.getElementById('m2').innerHTML = mHtml;
     </script>
