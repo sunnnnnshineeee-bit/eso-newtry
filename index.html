@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ES ONLY 1.0 - EVERMORE STARS</title>
+    <title>ES ONLY 1.0 - 轻盈梦幻版</title>
     <style>
         :root {
             --es-blue: #6ec6ff;
@@ -19,9 +19,8 @@
             flex-direction: column;
             align-items: center; 
             min-height: 100vh; 
-            font-family: "Microsoft YaHei", sans-serif;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
             overflow-x: hidden;
-            padding-bottom: 50px;
         }
 
         /* 主容器 */
@@ -29,18 +28,17 @@
             position: relative;
             width: 100%;
             max-width: 800px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
-            background: white;
-            margin-top: 20px;
+            margin: 40px 0;
+            line-height: 0; /* 消除图片缝隙 */
         }
 
         .poster-img { width: 100%; height: auto; display: block; }
 
-        /* 热区样式 (保留你调好的坐标) */
-        .hotspot { position: absolute; cursor: pointer; z-index: 10; border-radius: 5px; }
-        .hotspot:hover { background: rgba(255, 255, 255, 0.4); outline: 3px solid white; }
+        /* 热区 */
+        .hotspot { position: absolute; cursor: pointer; z-index: 10; border-radius: 50%; }
+        .hotspot:hover { background: rgba(255, 255, 255, 0.4); box-shadow: 0 0 20px #fff; }
 
-        /* 你提供的坐标数据 */
+        /* 坐标位置 (已根据你之前提供的版本保留) */
         .spot-lineup { top: 1%; right: 11%; width: 10%; height: 4%; }
         .spot-info { top: 1%; right: 2%; width: 7%; height: 4%; }
         .spot-special { top: 23%; left: 12%; width: 18%; height: 9%; transform: rotate(-10deg); }
@@ -50,31 +48,44 @@
         .spot-evermore { top: 51%; right: 0.5%; width: 28%; height: 4%; transform: rotate(-24deg); }
         .spot-location { top: 62%; left: 2.5%; width: 30%; height: 4%; }
 
-        /* --- 跑马灯样式 --- */
-        .marquee-wrapper {
-            width: 110%;
+        /* --- 柔和跑马灯 (重叠在图片上) --- */
+        .marquee-overlay {
+            position: absolute;
+            width: 100%;
+            height: 40px; /* 调整高度以匹配原图丝带 */
             overflow: hidden;
-            margin-top: 10px;
-            border-top: 4px solid black;
-            border-bottom: 4px solid black;
+            display: flex;
+            align-items: center;
+            pointer-events: none; /* 让跑马灯不遮挡下方点击 */
+            z-index: 5;
         }
-        
-        .bg-blue { background: var(--es-blue); transform: rotate(-1deg); }
-        .bg-pink { background: var(--es-pink); transform: rotate(1deg); margin-top: -10px; }
+
+        /* 蓝丝带跑马灯位置微调 - 请根据你的图片调整 top 值 */
+        .m-blue {
+            top: 75%; /* 这里是关键，微调这个百分比让它和图片丝带重合 */
+            background: var(--es-blue);
+            transform: rotate(-2deg) scale(1.05);
+        }
+
+        /* 粉丝带跑马灯位置微调 */
+        .m-pink {
+            top: 82%; /* 这里是关键，微调这个百分比让它和图片丝带重合 */
+            background: var(--es-pink);
+            transform: rotate(1deg) scale(1.05);
+        }
 
         .marquee-content {
             display: flex;
             white-space: nowrap;
-            padding: 10px 0;
-            animation: marquee 20s linear infinite;
+            animation: marquee 12s linear infinite;
         }
 
         .marquee-text {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: black;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white; /* 黑色字改为白色字 */
             padding: 0 20px;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         @keyframes marquee {
@@ -82,210 +93,188 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* --- 赛璐璐风弹窗 (Modal) --- */
+        /* --- 梦幻圆角弹窗 --- */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
+            background: rgba(255, 255, 255, 0.4); /* 背景调浅 */
             z-index: 100;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
         }
 
         .modal-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             width: 90%;
             max-width: 500px;
-            border: 5px solid black; /* 赛璐璐黑边感 */
-            border-radius: 0px; /* 偏向硬朗线条 */
+            border-radius: 40px; /* 大圆角 */
             position: relative;
-            padding: 20px;
-            box-shadow: 10px 10px 0px black; /* 波普风阴影 */
-            animation: cardPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 30px;
+            /* 白色发光阴影 */
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.8), 0 20px 50px rgba(0,0,0,0.05);
+            border: 2px solid white;
+            animation: cardFadeIn 0.4s ease-out;
         }
 
-        @keyframes cardPop {
-            from { transform: scale(0.5) rotate(-5deg); opacity: 0; }
-            to { transform: scale(1) rotate(0deg); opacity: 1; }
+        @keyframes cardFadeIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .modal-header {
-            background: var(--es-pink);
-            color: white;
-            padding: 10px;
-            margin: -20px -20px 20px -20px;
-            border-bottom: 5px solid black;
+            color: var(--es-pink);
+            font-size: 1.5rem;
             font-weight: bold;
-            font-size: 1.2rem;
-            text-align: left;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px dashed #eee;
+            padding-bottom: 15px;
         }
 
         .modal-body {
-            color: #333;
+            color: #555;
             line-height: 1.6;
-            text-align: left;
-            max-height: 70vh;
+            max-height: 65vh;
             overflow-y: auto;
         }
 
-        /* 内部内容块样式 */
-        .info-section {
-            border-left: 4px solid var(--es-blue);
-            padding-left: 10px;
-            margin-bottom: 15px;
+        /* 场地图片网格 */
+        .image-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
         }
-        
-        .info-label { font-weight: bold; color: var(--es-pink); display: block; font-size: 0.9rem; }
-        .info-value { font-size: 1rem; margin-bottom: 5px; }
 
-        .staff-img {
-            width: 80px; height: 80px;
-            background: #eee;
-            border: 2px solid black;
-            margin-top: 5px;
+        .venue-img-box {
+            background: #f0f0f0;
+            border-radius: 15px;
+            aspect-ratio: 16/9;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem; color: #999;
+            font-size: 0.8rem;
+            color: #999;
+            overflow: hidden;
+            border: 1px solid #eee;
         }
 
-        .close-card-btn {
+        .venue-img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        .close-btn {
             position: absolute;
-            top: -15px; right: -15px;
-            width: 40px; height: 40px;
-            background: var(--es-yellow);
-            border: 3px solid black;
-            font-weight: bold;
+            top: 20px; right: 25px;
+            background: #eee;
+            border: none;
+            width: 35px; height: 35px;
+            border-radius: 50%;
             cursor: pointer;
-            box-shadow: 4px 4px 0px black;
+            font-size: 18px;
+            color: #999;
+            transition: 0.3s;
         }
-
-        /* 隐藏滚动条 */
-        .modal-body::-webkit-scrollbar { width: 5px; }
-        .modal-body::-webkit-scrollbar-thumb { background: black; }
+        .close-btn:hover { background: var(--es-pink); color: white; }
     </style>
 </head>
 <body>
 
     <div class="poster-container">
-        <img src="bg.png" alt="海报" class="poster-img" id="mainImg">
+        <img src="bg.png" alt="ES ONLY" class="poster-img">
 
-        <div class="hotspot spot-lineup" onclick="openModal('lineup')"></div>
-        <div class="hotspot spot-info" onclick="openModal('info')"></div>
-        <div class="hotspot spot-special" onclick="openModal('special')"></div>
-        <div class="hotspot spot-fanworks" onclick="openModal('fanworks')"></div>
-        <div class="hotspot spot-mainstage" onclick="openModal('mainstage')"></div>
-        <div class="hotspot spot-creative" onclick="openModal('creative')"></div>
-        <div class="hotspot spot-evermore" onclick="openModal('evermore')"></div>
-        <div class="hotspot spot-location" onclick="openModal('location')"></div>
+        <div class="marquee-overlay m-blue">
+            <div class="marquee-content" id="m1"></div>
+        </div>
+        <div class="marquee-overlay m-pink">
+            <div class="marquee-content" id="m2"></div>
+        </div>
+
+        <div class="hotspot spot-lineup" onclick="openM('lineup')"></div>
+        <div class="hotspot spot-info" onclick="openM('info')"></div>
+        <div class="hotspot spot-special" onclick="openM('special')"></div>
+        <div class="hotspot spot-fanworks" onclick="openM('fanworks')"></div>
+        <div class="hotspot spot-mainstage" onclick="openM('mainstage')"></div>
+        <div class="hotspot spot-creative" onclick="openM('creative')"></div>
+        <div class="hotspot spot-evermore" onclick="openM('evermore')"></div>
+        <div class="hotspot spot-location" onclick="openM('location')"></div>
     </div>
 
-    <div class="marquee-wrapper bg-blue">
-        <div class="marquee-content" id="m1"></div>
-    </div>
-    <div class="marquee-wrapper bg-pink">
-        <div class="marquee-content" id="m2"></div>
-    </div>
-
-    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal-overlay" id="modalOverlay" onclick="closeM()">
         <div class="modal-card" onclick="event.stopPropagation()">
-            <button class="close-card-btn" onclick="closeModal()">X</button>
-            <div class="modal-header" id="modalTitle">标题</div>
-            <div class="modal-body" id="modalContent">
-                </div>
+            <button class="close-btn" onclick="closeM()">✕</button>
+            <div class="modal-header" id="modalTitle">TITLE</div>
+            <div class="modal-body" id="modalContent"></div>
         </div>
     </div>
 
     <script>
-        // 弹窗数据配置
-        const contentData = {
+        const data = {
             mainstage: {
-                title: "★ 主舞台招募详细 MAIN STAGE",
-                body: `
-                    <div class="info-section">
-                        <span class="info-label">报名时间</span>
-                        <p class="info-value">2026年3月1日 - 2026年4月15日</p>
+                title: "主舞台招募详情",
+                content: `
+                    <div class="info-card">
+                        <p><b>报名时间：</b>2026.03.01 - 04.15</p>
+                        <p><b>报名要求：</b>偶像梦幻祭主题相关节目</p>
+                        <p><b>结果公布：</b>2026.05.05</p>
+                        <p><b>QQ舞台群：</b>123456789</p>
                     </div>
-                    <div class="info-section">
-                        <span class="info-label">报名要求</span>
-                        <p class="info-value">仅限《偶像梦幻祭》相关内容，支持宅舞、舞台剧、乐器演奏等形式。</p>
-                    </div>
-                    <div class="info-section">
-                        <span class="info-label">审核人员</span>
-                        <div style="display:flex; gap:10px; align-items:center;">
-                            <div>
-                                <div class="staff-img">PHOTO</div>
-                                <p style="font-size:0.8rem; text-align:center;">审核官 A</p>
-                            </div>
-                            <div>
-                                <div class="staff-img">PHOTO</div>
-                                <p style="font-size:0.8rem; text-align:center;">审核官 B</p>
-                            </div>
+                    <div class="info-card">
+                        <p><b>审核人员：</b></p>
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <div class="venue-img-box" style="width:60px; height:60px; border-radius:50%">头像A</div>
+                            <div class="venue-img-box" style="width:60px; height:60px; border-radius:50%">头像B</div>
                         </div>
                     </div>
-                    <div class="info-section">
-                        <span class="info-label">时间线</span>
-                        <p class="info-value">审核时间：4月16日-4月30日</p>
-                        <p class="info-value">结果公布：5月5日</p>
-                        <p class="info-value" style="color:red">放弃资格截止：5月15日</p>
-                    </div>
-                    <div class="info-section">
-                        <span class="info-label">官方舞台QQ群</span>
-                        <p class="info-value" style="font-size:1.2rem; font-weight:bold;">123456789</p>
-                    </div>
                 `
-            },
-            evermore: {
-                title: "★ 互动玩法 EVERMORE STARS",
-                body: `<p style="text-align:center; padding:20px;">[ 敬请期待 ]<br><br>更多官方互动环节正在紧张筹备中...</p>`
-            },
-            special: {
-                title: "★ 特殊招募 SPECIAL SCOUT",
-                body: `<p style="text-align:center; padding:20px;">[ 敬请期待 ]<br><br>会有特别的嘉宾还是限定周边？请关注后续推送！</p>`
             },
             info: {
-                title: "★ 活动详情 INFO",
-                body: `
-                    <div class="info-section"><span class="info-label">活动介绍</span><p class="info-value">敬请期待</p></div>
-                    <div class="info-section"><span class="info-label">活动嘉宾</span><p class="info-value">敬请期待 (GUEST LIST COMING SOON)</p></div>
-                    <div class="info-section"><span class="info-label">活动时间线</span><p class="info-value">敬请期待</p></div>
-                    <div class="info-section"><span class="info-label">场地分区</span><p class="info-value">敬请期待</p></div>
-                    <div class="info-section"><span class="info-label">物料清单</span><p class="info-value">敬请期待</p></div>
+                title: "活动详情 & 场地分区",
+                content: `
+                    <p style="margin-bottom:10px"><b>场地效果图及演职人员区域：</b></p>
+                    <div class="image-grid">
+                        <div class="venue-img-box">效果图 1</div>
+                        <div class="venue-img-box">效果图 2</div>
+                        <div class="venue-img-box">效果图 3</div>
+                        <div class="venue-img-box">休息室图 1</div>
+                        <div class="venue-img-box">休息室图 2</div>
+                        <div class="venue-img-box">休息室图 3</div>
+                    </div>
+                    <div class="info-card" style="margin-top:20px">
+                        <p><b>活动嘉宾：</b>敬请期待</p>
+                        <p><b>物料清单：</b>敬请期待</p>
+                    </div>
                 `
             },
-            location: {
-                title: "★ 场地指引 LOCATION",
-                body: `<p><b>上海摩登天空 Modern Sky LAB</b><br>地址：瑞虹天地月亮湾3F<br><br>更多交通及入场路线图：敬请期待</p>`
-            },
-            lineup: { title: "★ 演出阵容 LINEUP", body: "<p style='text-align:center; padding:20px;'>[ 敬请期待 ]</p>" },
-            fanworks: { title: "★ 同人摊位 FANWORKS", body: "<p style='text-align:center; padding:20px;'>[ 敬请期待 ]</p>" },
-            creative: { title: "★ 创意舞台 CREATIVE", body: "<p style='text-align:center; padding:20px;'>[ 敬请期待 ]</p>" }
+            evermore: { title: "EVERMORE STARS", content: "官方互动玩法内容开发中，敬请期待！" },
+            special: { title: "特殊招募", content: "敬请期待本次活动的特别招募计划。" },
+            location: { title: "场地指引", content: "上海摩登天空 Modern Sky LAB<br>瑞虹天地月亮湾3F" },
+            lineup: { title: "阵容公告", content: "敬请期待" },
+            fanworks: { title: "同人摊位", content: "敬请期待" },
+            creative: { title: "创意舞台", content: "敬请期待" }
         };
 
-        // 弹窗逻辑
-        function openModal(key) {
-            const data = contentData[key];
-            document.getElementById('modalTitle').innerText = data.title;
-            document.getElementById('modalContent').innerHTML = data.body;
+        function openM(key) {
+            document.getElementById('modalTitle').innerText = data[key].title;
+            document.getElementById('modalContent').innerHTML = data[key].content;
             document.getElementById('modalOverlay').style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('modalOverlay').style.display = 'none';
-        }
+        function closeM() { document.getElementById('modalOverlay').style.display = 'none'; }
 
-        // 初始化跑马灯文字内容
-        function initMarquee() {
-            const text = "EVERMORESTARS JULY 19 TH • ";
-            const repeatCount = 10;
-            const fullText = text.repeat(repeatCount);
-            document.getElementById('m1').innerHTML = `<span class="marquee-text">${fullText}</span><span class="marquee-text">${fullText}</span>`;
-            document.getElementById('m2').innerHTML = `<span class="marquee-text">${fullText}</span><span class="marquee-text">${fullText}</span>`;
-        }
-        
-        initMarquee();
+        // 跑马灯初始化
+        const text = "EVERMORESTARS JULY 19 TH • ";
+        const content = `<span class="marquee-text">${text.repeat(10)}</span><span class="marquee-text">${text.repeat(10)}</span>`;
+        document.getElementById('m1').innerHTML = content;
+        document.getElementById('m2').innerHTML = content;
     </script>
 </body>
 </html>
