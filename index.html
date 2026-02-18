@@ -23,13 +23,15 @@
             padding: 10px 10px 60px 10px; overflow-x: hidden;
         }
 
-        /* ================= 开屏动画 (延长至 8 秒) ================= */
+        /* ================= 开屏动画 (5秒 + 加载文字) ================= */
         #opening-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #fce4ec; display: flex; align-items: center; justify-content: center;
             z-index: 999;
         }
-        .opening-container { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+        .opening-container { 
+            position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; 
+        }
         .animate-ripple { position: absolute; border-radius: 50%; animation: ripple 3s infinite ease-out; }
         @keyframes ripple {
             0% { width: 100px; height: 100px; opacity: 1; border-width: 2px; }
@@ -40,8 +42,14 @@
             0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(253,168,212,0.5)); }
             50% { transform: scale(1.1); filter: drop-shadow(0 0 30px rgba(124,207,242,0.8)); }
         }
+        /* 加载文字样式 */
+        .loading-text {
+            margin-top: 20px; font-weight: bold; color: var(--es-blue); letter-spacing: 2px;
+            font-size: 0.9rem; animation: text-fade 1.5s infinite; z-index: 10;
+        }
+        @keyframes text-fade { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-        /* ================= 热区交互 (闪烁 & 点击效果) ================= */
+        /* ================= 热区交互 (永久闪烁) ================= */
         .poster-container {
             position: relative; width: 100%; max-width: 800px; margin: 0 auto;
             border-radius: 15px; background: #fff; overflow: hidden;
@@ -53,21 +61,15 @@
             position: absolute; cursor: pointer; z-index: 10; 
             background: rgba(255, 255, 255, 0.2); 
             border: 1.5px solid rgba(255, 255, 255, 0.7);
-            animation: hotspot-glow 2s infinite ease-in-out;
+            animation: hotspot-glow 2s infinite ease-in-out; 
             transition: all 0.3s ease;
-        }
-        .hotspot.visited {
-            animation: none !important;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            opacity: 0.5;
         }
         @keyframes hotspot-glow {
             0%, 100% { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); }
             50% { background: rgba(255, 255, 255, 0.4); border-color: rgba(255, 255, 255, 1); box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
         }
 
-        /* 热区位置参数 */
+        /* 热区位置 */
         .spot-lineup { top: 1%; right: 11%; width: 10%; height: 4%; border-radius: 20px; }
         .spot-info { top: 1%; right: 2%; width: 7%; height: 4%; border-radius: 20px; }
         .spot-special { top: 23%; left: 12%; width: 18%; height: 9%; transform: rotate(-10deg); border-radius: 10px; }
@@ -77,11 +79,15 @@
         .spot-evermore { top: 51%; right: 0.5%; width: 28%; height: 4%; transform: rotate(-24deg); border-radius: 5px; }
         .spot-location { top: 62%; left: 2.5%; width: 30%; height: 4%; border-radius: 5px; }
 
-        /* 弹窗及列表样式 */
+        /* 社交栏图标 - 纯白 */
+        .social-bar { position: absolute; top: 1.5%; left: 20%; display: flex; gap: 12px; z-index: 20; }
+        .social-link { color: #ffffff !important; font-size: 1.1rem; filter: drop-shadow(0 0 2px rgba(0,0,0,0.2)); }
+
+        /* 弹窗样式 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.3); z-index: 100; justify-content: center; align-items: flex-start;
-            padding-top: 5vh; padding-bottom: 5vh; overflow-y: auto;
+            padding: 5vh 0; overflow-y: auto;
         }
         .modal-card {
             background: var(--glass); width: 92%; max-width: 500px; 
@@ -97,14 +103,12 @@
         .sub-layer { width: 100%; display: none; flex-direction: column; }
         .sub-body { color: #555; font-size: 0.95rem; line-height: 1.8; padding-bottom: 20px; }
         .group-tip { background: #fff0f3; padding: 12px; border-radius: 12px; border-left: 4px solid var(--es-pink); margin-bottom: 15px; color: #ff4081; font-weight: bold; font-size: 0.85rem; }
-        .venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
-        .venue-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 12px; border: 2px solid #fff; }
         .back-btn { color: var(--es-blue); cursor: pointer; font-weight: bold; margin-bottom: 15px; display: block; }
         .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 22px; color: #ccc; background:none; border:none; }
-        .social-bar { position: absolute; top: 1.5%; left: 20%; display: flex; gap: 12px; z-index: 20; }
-        .social-link { color: #ccc; }
-        .site-footer { margin-top: 30px; text-align: center; font-size: 11px; color: #b388ff; }
-        .qq-qrcode { width: 160px; height: 160px; border-radius: 15px; margin-bottom: 15px; border: 2px dashed #eee; }
+        
+        /* 底部文字更新 */
+        .site-footer { margin-top: 30px; text-align: center; font-size: 10px; color: #b388ff; line-height: 1.6; padding: 0 10px; }
+        .qq-qrcode { width: 160px; height: 160px; border-radius: 15px; margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -121,6 +125,7 @@
                 </defs>
                 <path d="M100 10 L120 80 L190 100 L120 120 L100 190 L80 120 L10 100 L80 80 Z" fill="url(#openingStarGrad)" />
             </svg>
+            <div class="loading-text">INITIALIZING...</div>
         </div>
     </div>
 
@@ -133,17 +138,19 @@
         </div>
         <img src="bg.png" alt="BG" class="poster-img">
 
-        <div class="hotspot spot-lineup" onclick="handleHotspotClick(this, 'lineup')"></div>
-        <div class="hotspot spot-info" onclick="handleHotspotClick(this, 'info')"></div>
-        <div class="hotspot spot-special" onclick="handleHotspotClick(this, 'special')"></div>
-        <div class="hotspot spot-fanworks" onclick="handleHotspotClick(this, 'fanworks')"></div>
-        <div class="hotspot spot-mainstage" onclick="handleHotspotClick(this, 'mainstage')"></div>
-        <div class="hotspot spot-creative" onclick="handleHotspotClick(this, 'creative')"></div>
-        <div class="hotspot spot-evermore" onclick="handleHotspotClick(this, 'evermore')"></div>
-        <div class="hotspot spot-location" onclick="handleHotspotClick(this, 'location')"></div>
+        <div class="hotspot spot-lineup" onclick="openMenu('lineup')"></div>
+        <div class="hotspot spot-info" onclick="openMenu('info')"></div>
+        <div class="hotspot spot-special" onclick="openMenu('special')"></div>
+        <div class="hotspot spot-fanworks" onclick="openMenu('fanworks')"></div>
+        <div class="hotspot spot-mainstage" onclick="openMenu('mainstage')"></div>
+        <div class="hotspot spot-creative" onclick="openMenu('creative')"></div>
+        <div class="hotspot spot-evermore" onclick="openMenu('evermore')"></div>
+        <div class="hotspot spot-location" onclick="openMenu('location')"></div>
     </div>
 
-    <div class="site-footer">2026 EvermoreStars | Design by Everstars Group</div>
+    <div class="site-footer">
+        2026 EvermoreStars | Design by Everstars Group | ILLUS:ALAN阿兰 WEB：DESIGN:林焰 BUILD：烧鸭 | Inspired by EnsembleStars!!
+    </div>
 
     <div class="modal-overlay" id="overlay" onclick="closeAll()">
         <div class="modal-card" id="card" onclick="event.stopPropagation()">
@@ -167,21 +174,18 @@
     </div>
 
     <script>
-        // 1. 开屏逻辑优化：延长至 8 秒
+        // 开屏 5 秒
         function hideOpening() {
             const s = document.getElementById("opening-screen");
             if(s) {
-                s.style.transition = "opacity 1.2s ease";
+                s.style.transition = "opacity 1s ease";
                 s.style.opacity = "0";
-                setTimeout(() => s.remove(), 1200);
+                setTimeout(() => s.remove(), 1000);
             }
         }
-        // 设置为 8000 毫秒（8秒）后开始消失
-        window.addEventListener("load", () => {
-            setTimeout(hideOpening, 8000); 
-        });
+        window.addEventListener("load", () => { setTimeout(hideOpening, 5000); });
 
-        // 2. 核心数据配置：一个字都不少
+        // 核心配置：完全遵循你的原始文字
         const config = {
             mainstage: { 
                 title: "★ 主舞台招募", 
@@ -207,36 +211,20 @@
                     { label: "二、申请流程", detail: "1. 加入QQ群：<b>1081280182</b>。<br>2. 提交申请至邮箱。<br>3. 提交成功后如24小时内未收到成功接收的邮件反馈，请各负责人立刻联系同人摊位审核群同人UGC管理。<br>4. 在审核过程中，部分作者会收到来自主办的私信或邮件，提出一些审核中发现需要完善的信息或进行信息核验。" }
                 ] 
             },
-            location: { 
-                title: "★ 场地指引", 
-                items: [
-                    { label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b>" }, 
-                    { label: "预览效果图", detail: `<div class="venue-grid">
-                        <div class="venue-item"><img src="stage1.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 1</div></div>
-                        <div class="venue-item"><img src="stage2.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 2</div></div>
-                    </div>` }
-                ] 
-            },
+            location: { title: "★ 场地指引", items: [{ label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b>" }] },
             info: { title: "★ 品牌内涵", items: [{ label: "主题: CALL", detail: "你注视的光芒，因你而闪耀。" }] },
-            evermore: { title: "★ 互动玩法", items: [{ label: "一、互动应援", detail: "敬请期待，包含现场专属打Call设计。" }] },
-            special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "包含NPC、摄影及志愿者招募，详情请关注官方社群。" }] },
+            evermore: { title: "★ 互动玩法", items: [{ label: "一、互动应援", detail: "敬请期待" }] },
+            special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "详情请关注官群。" }] },
             lineup: { 
                 title: "★ 快捷导航", 
                 items: [
                     { label: "📍 场地信息", detail: "link:location" }, 
                     { label: "🎤 主舞台招募", detail: "link:mainstage" }, 
                     { label: "✨ 创意舞台", detail: "link:creative" }, 
-                    { label: "🎨 同人摊位", detail: "link:fanworks" }, 
-                    { label: "🌟 特殊招募", detail: "link:special" }
+                    { label: "🎨 同人摊位", detail: "link:fanworks" }
                 ] 
             }
         };
-
-        // 3. 交互逻辑
-        function handleHotspotClick(el, key) {
-            el.classList.add('visited'); 
-            openMenu(key);
-        }
 
         function openMenu(key) {
             const data = config[key];
@@ -245,7 +233,6 @@
             document.getElementById('subLayer').style.display = 'none';
             document.getElementById('mainView').style.display = 'block';
             document.getElementById('menuTitle').innerText = data.title;
-            
             let html = '';
             data.items.forEach(item => {
                 if(item.detail.startsWith("link:")) {
@@ -259,22 +246,16 @@
             document.getElementById('overlay').style.display = 'flex';
         }
 
-        function openSub(parentTitle, title, content) {
+        function openSub(p, t, c) {
             document.getElementById('mainView').style.display = 'none';
-            document.getElementById('subTitle').innerText = title;
-            document.getElementById('subBody').innerHTML = content;
-            const showTip = parentTitle.includes("舞台") || parentTitle.includes("摊位");
-            document.getElementById('subTip').style.display = showTip ? 'block' : 'none';
+            document.getElementById('subTitle').innerText = t;
+            document.getElementById('subBody').innerHTML = c;
+            document.getElementById('subTip').style.display = (p.includes("舞台") || p.includes("摊位")) ? 'block' : 'none';
             document.getElementById('subLayer').style.display = 'flex';
         }
 
-        function closeSub() {
-            document.getElementById('subLayer').style.display = 'none';
-            document.getElementById('mainView').style.display = 'block';
-        }
-
+        function closeSub() { document.getElementById('subLayer').style.display = 'none'; document.getElementById('mainView').style.display = 'block'; }
         function closeAll() { document.getElementById('overlay').style.display = 'none'; }
-        
         function openQQPopup() {
             document.getElementById('mainView').style.display = 'none';
             document.getElementById('subLayer').style.display = 'none';
