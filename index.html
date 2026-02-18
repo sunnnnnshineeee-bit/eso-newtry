@@ -23,7 +23,7 @@
             padding: 10px 10px 60px 10px; overflow-x: hidden;
         }
 
-        /* ================= 开屏动画 (5秒 + 加载文字) ================= */
+        /* ================= 开屏动画 (5秒 + 粉色加载文字) ================= */
         #opening-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #fce4ec; display: flex; align-items: center; justify-content: center;
@@ -42,10 +42,9 @@
             0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(253,168,212,0.5)); }
             50% { transform: scale(1.1); filter: drop-shadow(0 0 30px rgba(124,207,242,0.8)); }
         }
-        /* 加载文字样式 */
         .loading-text {
-            margin-top: 20px; font-weight: bold; color: var(--es-blue); letter-spacing: 2px;
-            font-size: 0.9rem; animation: text-fade 1.5s infinite; z-index: 10;
+            margin-top: 20px; font-weight: bold; color: var(--es-pink);
+            letter-spacing: 2px; font-size: 0.9rem; animation: text-fade 1.5s infinite; z-index: 10;
         }
         @keyframes text-fade { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
@@ -79,9 +78,15 @@
         .spot-evermore { top: 51%; right: 0.5%; width: 28%; height: 4%; transform: rotate(-24deg); border-radius: 5px; }
         .spot-location { top: 62%; left: 2.5%; width: 30%; height: 4%; border-radius: 5px; }
 
-        /* 社交栏图标 - 纯白 */
+        /* 社交栏图标 - 分别设置点击颜色反馈 */
         .social-bar { position: absolute; top: 1.5%; left: 20%; display: flex; gap: 12px; z-index: 20; }
-        .social-link { color: #ffffff !important; font-size: 1.1rem; filter: drop-shadow(0 0 2px rgba(0,0,0,0.2)); }
+        .social-link { color: #ffffff !important; font-size: 1.1rem; filter: drop-shadow(0 0 2px rgba(0,0,0,0.2)); transition: color 0.2s; }
+        
+        /* 特定点击色 */
+        .social-link.bili:active { color: #fb7299 !important; }
+        .social-link.dy:active { color: #000000 !important; }
+        .social-link.xhs:active { color: #ff2442 !important; }
+        .social-link.qq:active { color: #12b7f5 !important; }
 
         /* 弹窗样式 */
         .modal-overlay {
@@ -106,7 +111,7 @@
         .back-btn { color: var(--es-blue); cursor: pointer; font-weight: bold; margin-bottom: 15px; display: block; }
         .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 22px; color: #ccc; background:none; border:none; }
         
-        /* 底部文字更新 */
+        /* 底部文字 */
         .site-footer { margin-top: 30px; text-align: center; font-size: 10px; color: #b388ff; line-height: 1.6; padding: 0 10px; }
         .qq-qrcode { width: 160px; height: 160px; border-radius: 15px; margin-bottom: 15px; }
     </style>
@@ -131,10 +136,10 @@
 
     <div class="poster-container">
         <div class="social-bar">
-            <a href="https://space.bilibili.com/" target="_blank" class="social-link"><i class="fab fa-bilibili"></i></a>
-            <a href="https://v.douyin.com/M8ooJI61w-4/" target="_blank" class="social-link"><i class="fab fa-tiktok"></i></a>
-            <a href="https://xhslink.com/m/5KRgXDuEuB1" target="_blank" class="social-link"><i class="fas fa-camera-retro"></i></a>
-            <a href="javascript:void(0)" onclick="openQQPopup()" class="social-link"><i class="fab fa-qq"></i></a>
+            <a href="https://space.bilibili.com/" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
+            <a href="https://v.douyin.com/M8ooJI61w-4/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
+            <a href="https://xhslink.com/m/5KRgXDuEuB1" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
+            <a href="javascript:void(0)" onclick="openQQPopup()" class="social-link qq"><i class="fab fa-qq"></i></a>
         </div>
         <img src="bg.png" alt="BG" class="poster-img">
 
@@ -174,7 +179,6 @@
     </div>
 
     <script>
-        // 开屏 5 秒
         function hideOpening() {
             const s = document.getElementById("opening-screen");
             if(s) {
@@ -185,7 +189,6 @@
         }
         window.addEventListener("load", () => { setTimeout(hideOpening, 5000); });
 
-        // 核心配置：完全遵循你的原始文字
         const config = {
             mainstage: { 
                 title: "★ 主舞台招募", 
@@ -199,7 +202,7 @@
             creative: { 
                 title: "★ 创意舞台 (3-5组)", 
                 items: [
-                    { label: "一、舞台剧类 ", detail: "1. 舞台类型请大胆提案——eg.或许你想看饿死妹自己的环文广：【月永雷欧x德扎 ｜人如何逃离自己的阴影】【五奇人x法红黑 ｜荣耀为我俯首】<br>2. 节目内容需与偶像梦幻祭世界观、角色或剧情设定明确相关。表演选题不作具体限制，可涵盖原作剧情改编，或英美、法、德奥、日韩等地区的原创或改编剧目；但请避免选择其他 IP舞台的 crossover 内容。<br>3. 为维护场馆环境整洁及观演体验，舞台表演 原则上避免大型道具搬运，以及血浆、纸花等喷射或抛洒类道具。如确属演出需要，请提前向主办方报备并取得确认；同时鼓励以更安全、灵活、富有创意的方式进行呈现替代。<br>4. 节目创作与演出须 尊重舞台、作品及角色形象，内容不得涉及任何 敏感、色情、暴力血腥或现实争议性话题；严禁出现任何形式的 “角色黑”、恶意丑化、侮辱性改编或不当重构。" }, 
+                    { label: "一、舞台剧类 ", detail: "1. 舞台类型请大胆提案——eg.或许你想看饿死妹自己的环文广：【月永雷欧x德扎 ｜人如何逃离自己的阴影】【五奇人x法红黑 ｜荣耀为我俯首】<br>2. 节目内容需与偶像梦幻祭世界观、角色或剧情设定明确相关。表演选题不作具体限制，可涵盖原作剧情改编，或英美、法、德奥、日韩等地区的原创或改编剧目；但请避免选择其他 IP舞台的 crossover 内容。<br>3. 为维护场馆环境整洁及观演体验，舞台表演 原则上避免大型道具搬运，以及血浆、纸花等喷射或抛洒类道具。如确属演出需要，请提前向主办方报备并取得确认；同时鼓励以更安全、灵活、富有创意的方式进行呈现替代。<br>4. 节目创作与演出须 尊重舞台、作品及角色形象，内容不得涉及任何 敏感、色情、暴力血腥或现实争议性话题；严禁出现 any 形式的 “角色黑”、恶意丑化、侮辱性改编或不当重构。" }, 
                     { label: "二、音乐表演类 ", detail: "1. 音乐表演类舞台仅接受偶像梦幻祭官方歌曲（含国日服游戏内全曲目版本、官方演唱会曲目版本、官方舞台剧内曲目及联动曲目等）；同时鼓励富有创意的方式改编选曲（如将人声改为纯器乐版、编曲改为管弦乐、制作歌曲串烧等等）。<br>2. 音乐表演类舞台形式包括但不限于：器乐独奏（可配合伴奏）/器乐合奏/合唱/乐队演唱 （乐队演唱须为 live 演奏形式，不接受纯音源伴奏）<br>3. 演出所需话筒、音箱、功放等基础音响设备由场地方统一提供；表演者需自行携带乐器及个人使用设备；同时，为避免大型道具搬运，如演出为钢琴演奏，请携带电子键盘。" }, 
                     { label: "三、报名方式", detail: "1. 加入舞台审核群：QQ群号10258850882.<br> 2.自行下载《Everstars舞台招募》了解招募须知、内容说明、审核规则、报名方式等详情。<br>3. 前往群公告《中央舞台预报名表》在线编辑表填写团队队名及预报名曲目。<br>4. 前往群文件中自行下载并填写《创意舞台报名表》<br>5. 提交审核材料<br>6. 提交成功后如24小时内未收到成功接收的邮件反馈，请各团队长立刻联系创意舞台审核群管理。" }
                 ] 
