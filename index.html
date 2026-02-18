@@ -30,7 +30,7 @@
         #opening-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #fce4ec; display: flex; align-items: center; justify-content: center;
-            z-index: 999; pointer-events: auto;
+            z-index: 999;
         }
         .opening-container { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
         .animate-ripple { position: absolute; border-radius: 50%; animation: ripple 3s infinite ease-out; }
@@ -43,10 +43,8 @@
             0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(253,168,212,0.5)); }
             50% { transform: scale(1.1); filter: drop-shadow(0 0 30px rgba(124,207,242,0.8)); }
         }
-        .loading-text { position: absolute; bottom: 15%; color: var(--es-pink); font-size: 14px; letter-spacing: 0.5em; animation: blink 1.5s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
 
-        /* ================= 海报热区增强 ================= */
+        /* ================= 热区交互 & 闪烁动画 ================= */
         .poster-container {
             position: relative; width: 100%; max-width: 800px; margin: 0 auto;
             overflow: hidden; border-radius: 15px; background: #fff;
@@ -55,22 +53,28 @@
         .poster-img { width: 100%; height: auto; display: block; pointer-events: none; }
 
         .hotspot { 
-            position: absolute; 
-            cursor: pointer; 
-            z-index: 10; 
-            /* 新增视觉提示 */
-            background: rgba(255, 255, 255, 0.15); 
-            border: 1.5px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            position: absolute; cursor: pointer; z-index: 10; 
+            background: rgba(255, 255, 255, 0.2); 
+            border: 1.5px solid rgba(255, 255, 255, 0.7);
+            /* 呼吸闪烁动画 */
+            animation: hotspot-glow 2s infinite ease-in-out;
             transition: all 0.3s ease;
         }
-        .hotspot:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border: 2px solid #fff;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+
+        /* 点击后的状态：停止动画 */
+        .hotspot.visited {
+            animation: none;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            opacity: 0.6;
         }
 
-        /* 维持原有的位置参数 */
+        @keyframes hotspot-glow {
+            0%, 100% { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); }
+            50% { background: rgba(255, 255, 255, 0.4); border-color: rgba(255, 255, 255, 1); box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
+        }
+
+        /* 位置参数 */
         .spot-lineup { top: 1%; right: 11%; width: 10%; height: 4%; border-radius: 20px; }
         .spot-info { top: 1%; right: 2%; width: 7%; height: 4%; border-radius: 20px; }
         .spot-special { top: 23%; left: 12%; width: 18%; height: 9%; transform: rotate(-10deg); border-radius: 10px; }
@@ -92,23 +96,24 @@
             position: relative; display: flex; flex-direction: column;
             box-shadow: 0 25px 50px rgba(0,0,0,0.15); margin: auto;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
         }
         .modal-header { color: var(--es-pink); font-size: 1.3rem; font-weight: 900; text-align: center; margin-bottom: 20px; }
         .clickable-row {
             background: #fff; padding: 15px 20px; border-radius: 15px; margin-bottom: 12px;
             display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; border: 1px solid #eee; font-weight: bold; transition: background 0.2s;
+            cursor: pointer; border: 1px solid #eee; font-weight: bold;
         }
-        .clickable-row:hover { background: #fffcfd; border-color: var(--es-pink); }
-        .sub-layer { width: 100%; background: transparent; display: none; flex-direction: column; }
+        .sub-layer { width: 100%; display: none; flex-direction: column; }
         .sub-body { color: #555; font-size: 0.95rem; line-height: 1.8; padding-bottom: 20px; }
+        .group-tip { background: #fff0f3; padding: 12px; border-radius: 12px; border-left: 4px solid var(--es-pink); margin-bottom: 15px; color: #ff4081; font-weight: bold; font-size: 0.85rem; }
+        .venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .venue-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 12px; border: 2px solid #fff; }
         .back-btn { color: var(--es-blue); cursor: pointer; font-weight: bold; margin-bottom: 15px; display: block; }
-        .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 22px; color: #ccc; background:none; border:none; z-index: 30; }
-        .site-footer { margin-top: 30px; text-align: center; font-size: 11px; color: #b388ff; letter-spacing: 1px; }
+        .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 22px; color: #ccc; background:none; border:none; }
         .social-bar { position: absolute; top: 1.5%; left: 20%; display: flex; gap: 12px; z-index: 20; }
-        .social-link { color: #ccc; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; text-decoration: none; }
-        .qq-qrcode { width: 160px; height: 160px; object-fit: contain; border-radius: 15px; margin-bottom: 15px; border: 2px dashed #eee; }
+        .social-link { color: #ccc; transition: all 0.3s; }
+        .site-footer { margin-top: 30px; text-align: center; font-size: 11px; color: #b388ff; }
+        .qq-qrcode { width: 160px; height: 160px; border-radius: 15px; margin-bottom: 15px; border: 2px dashed #eee; }
     </style>
 </head>
 <body>
@@ -120,12 +125,11 @@
             <svg viewBox="0 0 200 200" class="opening-star">
                 <defs>
                     <linearGradient id="openingStarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#4b5ee9;stop-opacity:1" /><stop offset="50%" style="stop-color:#ffffff;stop-opacity:1" /><stop offset="100%" style="stop-color:#f63479;stop-opacity:1" />
+                        <stop offset="0%" style="stop-color:#4b5ee9" /><stop offset="50%" style="stop-color:#ffffff" /><stop offset="100%" style="stop-color:#f63479" />
                     </linearGradient>
                 </defs>
                 <path d="M100 10 L120 80 L190 100 L120 120 L100 190 L80 120 L10 100 L80 80 Z" fill="url(#openingStarGrad)" />
             </svg>
-            <div class="loading-text">INITIALIZING...</div>
         </div>
     </div>
 
@@ -136,19 +140,19 @@
             <a href="https://xhslink.com/m/5KRgXDuEuB1" target="_blank" class="social-link"><i class="fas fa-camera-retro"></i></a>
             <a href="javascript:void(0)" onclick="openQQPopup()" class="social-link"><i class="fab fa-qq"></i></a>
         </div>
-        <img src="bg.png" alt="EvermoreStars 未读章节" class="poster-img">
+        <img src="bg.png" alt="BG" class="poster-img">
 
-        <div class="hotspot spot-lineup" onclick="openMenu('lineup')"></div>
-        <div class="hotspot spot-info" onclick="openMenu('info')"></div>
-        <div class="hotspot spot-special" onclick="openMenu('special')"></div>
-        <div class="hotspot spot-fanworks" onclick="openMenu('fanworks')"></div>
-        <div class="hotspot spot-mainstage" onclick="openMenu('mainstage')"></div>
-        <div class="hotspot spot-creative" onclick="openMenu('creative')"></div>
-        <div class="hotspot spot-evermore" onclick="openMenu('evermore')"></div>
-        <div class="hotspot spot-location" onclick="openMenu('location')"></div>
+        <div class="hotspot spot-lineup" onclick="handleHotspotClick(this, 'lineup')"></div>
+        <div class="hotspot spot-info" onclick="handleHotspotClick(this, 'info')"></div>
+        <div class="hotspot spot-special" onclick="handleHotspotClick(this, 'special')"></div>
+        <div class="hotspot spot-fanworks" onclick="handleHotspotClick(this, 'fanworks')"></div>
+        <div class="hotspot spot-mainstage" onclick="handleHotspotClick(this, 'mainstage')"></div>
+        <div class="hotspot spot-creative" onclick="handleHotspotClick(this, 'creative')"></div>
+        <div class="hotspot spot-evermore" onclick="handleHotspotClick(this, 'evermore')"></div>
+        <div class="hotspot spot-location" onclick="handleHotspotClick(this, 'location')"></div>
     </div>
 
-    <div class="site-footer">2026 EvermoreStars | Inspired by EnsembleStars!!</div>
+    <div class="site-footer">2026 EvermoreStars | Design by Everstars Group</div>
 
     <div class="modal-overlay" id="overlay" onclick="closeAll()">
         <div class="modal-card" id="card" onclick="event.stopPropagation()">
@@ -157,15 +161,14 @@
                 <div class="modal-header" id="menuTitle">TITLE</div>
                 <div id="itemList"></div>
             </div>
-            <div id="qqView" style="display:none;">
+            <div id="qqView" style="display:none; text-align: center;">
                 <div class="modal-header">官方游客交流群</div>
-                <div style="text-align: center;">
-                    <img src="QQ.jpg" alt="QQ" class="qq-qrcode">
-                    <div style="font-size:1.6rem; color:#12b7f5; font-weight:900;">1077641866</div>
-                </div>
+                <img src="QQ.jpg" alt="QQ" class="qq-qrcode">
+                <div style="font-size:1.6rem; color:#12b7f5; font-weight:900;">1077641866</div>
             </div>
             <div class="sub-layer" id="subLayer">
                 <span class="back-btn" onclick="closeSub()">← 返回</span>
+                <div class="group-tip" id="subTip">💡 详细内容及报名表格请务必进群查看。</div>
                 <div class="modal-header" id="subTitle">详情</div>
                 <div class="sub-body" id="subBody"></div>
             </div>
@@ -173,26 +176,38 @@
     </div>
 
     <script>
-        window.addEventListener("load", function () {
-            const opening = document.getElementById("opening-screen");
+        // 开屏动画
+        window.addEventListener("load", () => {
             setTimeout(() => {
-                opening.style.transition = "opacity 1s ease";
-                opening.style.opacity = "0";
-                setTimeout(() => { opening.remove(); }, 1000);
-            }, 2500); 
+                const s = document.getElementById("opening-screen");
+                s.style.transition = "opacity 1s";
+                s.style.opacity = "0";
+                setTimeout(() => s.remove(), 1000);
+            }, 2500);
         });
 
-        // 核心配置
+        // 还原后的完整配置数据
+      <script>
         const config = {
-            mainstage: { title: "★ 主舞台招募", items: [{ label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m" }, { label: "二、招募须知", detail: "仅接受ES官方歌曲报名。" }] },
-            creative: { title: "★ 创意舞台 (3-5组)", items: [{ label: "一、舞台剧类 ", detail: "须与ES相关，鼓励改编原创。" }] },
-            fanworks: { title: "★ 同人摊位招募", items: [{ label: "一、申摊须知", detail: "支持同人志、轻周边。" }] },
-            location: { title: "★ 场地指引", items: [{ label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b>" }] },
+            mainstage: { title: "★ 主舞台招募", items: [{ label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" }, { label: "二、招募须知", detail: "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲报名。<br>4.服装凡官方任意平台出现过即可。<br>5. 舞蹈可混剪，时间最短不低于3分钟，最长不超过8分钟。" }, { label: "三、报名流程", detail: "1. 加入舞台审核群：QQ群号10258850882.<br> 2.下载并填写招募说明...详情请进群。" }] },
+            creative: { title: "★ 创意舞台 (3-5组)", items: [{ label: "一、舞台剧类 ", detail: "1. 舞台类型请大胆提案...内容须与ES相关。" }, { label: "二、音乐表演类 ", detail: "1. 仅接受偶像梦幻祭官方歌曲..." }] },
+            fanworks: { title: "★ 同人摊位招募", items: [{ label: "一、申摊须知", detail: "1.支持同人志、轻周边。严禁盗图、AI产出。" }, { label: "二、申请流程", detail: "1. 加入QQ群：<b>1081280182</b>。" }] },
+            location: { 
+                title: "★ 场地指引", 
+                items: [
+                    { label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b>" }, 
+                    { label: "预览效果图", detail: `<div class="venue-grid">
+                        <div class="venue-item"><img src="stage1.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 1</div></div>
+                        <div class="venue-item"><img src="stage2.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 2</div></div>
+                        <div class="venue-item"><img src="restroomA.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 A</div></div>
+                        <div class="venue-item"><img src="restroomB.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 B</div></div>
+                    </div>` }
+                ] 
+            },
             info: { title: "★ 品牌内涵", items: [{ label: "主题: CALL", detail: "你注视的光芒，因你而闪耀。" }] },
             evermore: { title: "★ 互动玩法", items: [{ label: "一、互动应援", detail: "敬请期待" }] },
             special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "详情请关注官群。" }] },
-            
-            // 新增：Lineup 导航板块，通过调用 openMenu 模拟跳转
+
             lineup: { 
                 title: "★ 快捷导航", 
                 items: [
@@ -205,10 +220,15 @@
             }
         };
 
+        // 处理点击并记录访问状态
+        function handleHotspotClick(el, key) {
+            el.classList.add('visited'); // 添加访问过的类，停止闪烁
+            openMenu(key);
+        }
+
         function openMenu(key) {
             const data = config[key];
             if(!data) return;
-            
             document.getElementById('qqView').style.display = 'none';
             document.getElementById('subLayer').style.display = 'none';
             document.getElementById('mainView').style.display = 'block';
@@ -216,23 +236,24 @@
             
             let html = '';
             data.items.forEach(item => {
-                // 判断是否是特殊的导航链接
                 if(item.detail.startsWith("link:")) {
-                    const targetKey = item.detail.split(":")[1];
-                    html += `<div class="clickable-row" onclick="openMenu('${targetKey}')">${item.label} <i class="fas fa-chevron-right" style="font-size:0.8rem; color:#ccc"></i></div>`;
+                    const target = item.detail.split(":")[1];
+                    html += `<div class="clickable-row" onclick="openMenu('${target}')">${item.label} <i class="fas fa-chevron-right"></i></div>`;
                 } else {
-                    html += `<div class="clickable-row" onclick="openSub('${item.label}', \`${item.detail}\`)">${item.label}</div>`;
+                    html += `<div class="clickable-row" onclick="openSub('${data.title}', '${item.label}', \`${item.detail}\`)">${item.label}</div>`;
                 }
             });
-            
             document.getElementById('itemList').innerHTML = html;
             document.getElementById('overlay').style.display = 'flex';
         }
 
-        function openSub(title, content) {
+        function openSub(parentTitle, title, content) {
             document.getElementById('mainView').style.display = 'none';
             document.getElementById('subTitle').innerText = title;
             document.getElementById('subBody').innerHTML = content;
+            // 只有特定板块显示提示
+            const showTip = parentTitle.includes("舞台") || parentTitle.includes("摊位");
+            document.getElementById('subTip').style.display = showTip ? 'block' : 'none';
             document.getElementById('subLayer').style.display = 'flex';
         }
 
