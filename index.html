@@ -32,19 +32,15 @@
             box-shadow: 0 15px 40px rgba(253, 168, 212, 0.3);
         }
 
-        /* --- Icon 尺寸极致锁定 --- */
         .social-bar {
             position: absolute; top: 1%; left: 20%; display: flex; gap: 12px; z-index: 20;
         }
         .social-link {
-            color: #ccc; width: 20px; height: 20px; /* 进一步收紧尺寸 */
+            color: #ccc; width: 20px; height: 20px;
             display: flex; align-items: center; justify-content: center;
             transition: all 0.3s; text-decoration: none;
         }
-        .social-link i { 
-            font-size: 16px !important; /* 强制像素级大小 */
-            line-height: 1 !important; width: auto !important; height: auto !important;
-        }
+        .social-link i { font-size: 16px !important; line-height: 1 !important; }
         .social-link:hover { transform: scale(1.2); }
         .hover-bili:hover { color: var(--bili-blue); }
         .hover-dy:hover { color: #000; }
@@ -53,7 +49,6 @@
 
         .poster-img { width: 100%; height: auto; display: block; pointer-events: none; }
 
-        /* 热区保持不变 */
         .hotspot { position: absolute; cursor: pointer; z-index: 10; border-radius: 50%; }
         .spot-lineup { top: 1%; right: 11%; width: 10%; height: 4%; }
         .spot-info { top: 1%; right: 2%; width: 7%; height: 4%; }
@@ -64,7 +59,7 @@
         .spot-evermore { top: 51%; right: 0.5%; width: 28%; height: 4%; transform: rotate(-24deg); }
         .spot-location { top: 62%; left: 2.5%; width: 30%; height: 4%; }
 
-        /* --- 跑马灯：改用像素级位移 --- */
+        /* --- 跑马灯样式修正 --- */
         .marquee-overlay {
             position: absolute; width: 200%; left: -50%; height: 32px;
             overflow: hidden; display: flex; align-items: center; pointer-events: none; z-index: 5;
@@ -74,12 +69,16 @@
         
         .marquee-content { 
             display: flex; white-space: nowrap; will-change: transform;
-            /* 动画名称改为由脚本注入 */
-            animation: none; 
+            color: white !important; /* 强制白色 */
         }
-        .marquee-text { font-size: 14px; font-weight: 900; color: white; padding: 0 30px; }
+        .marquee-text { 
+            font-size: 14px; font-weight: 900; 
+            color: white !important; /* 强制白色 */
+            padding: 0 30px; 
+            display: inline-block;
+        }
 
-        /* 弹窗及其他样式保持不变 */
+        /* 弹窗样式 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.3); z-index: 100; justify-content: center; align-items: flex-start;
@@ -163,12 +162,27 @@
 
     <script>
         const config = {
-            mainstage: { title: "★ 主舞台招募 (15-20组)", items: [{ label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" }, { label: "二、招募须知", detail: "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲报名。<br>4. 演出服装须为官方款式。<br>5. 舞蹈时间：3-8分钟。<br>6. 谢绝个人串团及新红月参演。" }, { label: "三、报名流程", detail: "1. 加入QQ群：<b>1025885088</b>。<br>2. 填写在线预报名表。<br>3. 提交审核视频。<br>4. 截止时间：2026.05.03。" }] },
-            creative: { title: "★ 创意舞台 (3-5组)", items: [{ label: "一、舞台剧类 ", detail: "须与ES相关，鼓励改编原创。" }, { label: "二、音乐表演类 ", detail: "形式：翻奏、纯器乐版、合唱、乐队。<br>要求：仅限ES官方歌曲。" }, { label: "三、报名方式", detail: "进群获取报名表，截止 2026.05.03。" }] },
-            fanworks: { title: "★ 同人摊位招募 (3-6个)", items: [{ label: "一、申摊须知", detail: "支持同人志、轻周边。严禁盗图、AI产出。" }, { label: "二、申请流程", detail: "1. 加入QQ群：<b>1081280182</b>。<br>2. 提交申请至邮箱。<br>3. 截止时间：2026.05.15。" }] },
+            mainstage: { 
+                title: "★ 主舞台招募", 
+                items: [
+                    { label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" }, 
+                    { label: "二、招募须知", detail: "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲报名。" }, 
+                    { label: "三、报名流程", detail: "1. 加入QQ群：<b>1025885088</b>。<br>2. 提交报名表及视频。" },
+                    { label: "四、审核嘉宾介绍", detail: "本届主舞台审核嘉宾阵容即将公开，敬请期待。" }
+                ] 
+            },
+            creative: { title: "★ 创意舞台 (3-5组)", items: [{ label: "一、舞台剧类 ", detail: "须与ES相关，鼓励改编原创。" }, { label: "二、音乐表演类 ", detail: "形式：翻奏、纯器乐版、合唱、乐队。<br>要求：仅限ES官方歌曲。" }, { label: "三、报名方式", detail: "进群获取报名表。" }] },
+            fanworks: { title: "★ 同人摊位招募", items: [{ label: "一、申摊须知", detail: "支持同人志、轻周边。严禁盗图、AI产出。" }, { label: "二、申请流程", detail: "1. 加入QQ群：<b>1081280182</b>。<br>2. 提交申请至邮箱。" }] },
             location: { title: "★ 场地指引", items: [{ label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b><br>瑞虹天地月亮湾3F，地铁4号线直达。" }, { label: "预览效果图", detail: `<div class="venue-grid"><div class="venue-box">舞台效果</div><div class="venue-box">全场预览</div><div class="venue-box">候场区</div><div class="venue-box">休息室</div></div>` }] },
             info: { title: "★ 品牌内涵", items: [{ label: "主题: CALL", detail: "你注视的光芒，因你而闪耀。" }] },
-            evermore: { title: "★ 互动玩法", items: [{ label: "未读章节", detail: "更多现场惊喜玩法，进群解锁。" }] },
+            evermore: { 
+                title: "★ 互动玩法", 
+                items: [
+                    { label: "一、互动应援", detail: "现场将开启CALL指令互动，让光芒汇聚现场。" },
+                    { label: "二、互动游戏设计", detail: "多款基于ES内涵设计的线下小游戏，参与即可赢取限定奖励。" },
+                    { label: "三、We Ensemble", detail: "大型全场共创计划，详情进群解锁。" }
+                ] 
+            },
             special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "详情请关注官群。" }] },
             lineup: { title: "★ 阵容公告", items: [{ label: "嘉宾阵容", detail: "阵容即将揭晓。" }] }
         };
@@ -198,22 +212,18 @@
         function closeSub() { document.getElementById('subLayer').style.display = 'none'; }
         function closeAll() { document.getElementById('overlay').style.display = 'none'; closeSub(); }
 
-        // --- 跑马灯逻辑：强制全设备同步速度 ---
         window.onload = function() {
             const text = "EVERMORESTARS JULY 19 TH • ";
             const container1 = document.getElementById('m1');
             const container2 = document.getElementById('m2');
             
-            // 填充内容
-            const content = `<span class="marquee-inner">${text.repeat(15)}</span>`;
+            const content = `<span class="marquee-inner" style="color:white !important;">${text.repeat(15)}</span>`;
             container1.innerHTML = content + content;
             container2.innerHTML = content + content;
 
-            // 计算一组文字的实际宽度（像素）
             const innerSpan = container1.querySelector('.marquee-inner');
             const scrollWidth = innerSpan.offsetWidth;
 
-            // 动态注入动画：在 30s 内仅移动一组文字的距离
             const style = document.createElement('style');
             style.innerHTML = `
                 @keyframes marquee-sync-px {
@@ -221,7 +231,7 @@
                     to { transform: translateX(-${scrollWidth}px); }
                 }
                 .marquee-content {
-                    animation: marquee-sync-px 30s linear infinite !important;
+                    animation: marquee-sync-px 35s linear infinite !important;
                 }
             `;
             document.head.appendChild(style);
