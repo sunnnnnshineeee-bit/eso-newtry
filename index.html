@@ -25,45 +25,26 @@
         }
 
         .poster-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            overflow: hidden; 
-            border-radius: 15px;
+            position: relative; width: 100%; max-width: 800px; margin: 0 auto;
+            overflow: hidden; border-radius: 15px; background: #fff;
             box-shadow: 0 15px 40px rgba(253, 168, 212, 0.3);
-            background: #fff;
         }
 
-        /* --- 顶部社交媒体栏 --- */
+        /* 顶部社交图标 */
         .social-bar {
-            position: absolute;
-            top: 2%;
-            right: 4%;
-            display: flex;
-            gap: 12px;
-            z-index: 20;
-            align-items: center;
+            position: absolute; top: 2%; right: 4%; display: flex; gap: 10px; z-index: 20;
         }
-
         .social-icon {
-            width: 28px; height: 28px;
-            border-radius: 8px;
-            background: white;
+            width: 32px; height: 32px; border-radius: 8px; background: white;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: transform 0.2s;
-            text-decoration: none;
-            font-size: 14px; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer;
+            transition: 0.2s; text-decoration: none; font-size: 11px; font-weight: bold;
         }
         .social-icon:hover { transform: scale(1.1); }
-        
-        /* 图标简单文字示意，你可以后续换成 SVG 图片 */
-        .ic-bili { color: var(--bili-blue); border: 2px solid var(--bili-blue); }
+        .ic-bili { color: var(--bili-blue); border: 1.5px solid var(--bili-blue); }
         .ic-dy { color: white; background: var(--dy-black); }
         .ic-xhs { color: white; background: var(--xhs-red); }
-        .ic-qq { color: #12b7f5; border: 2px solid #12b7f5; }
+        .ic-qq { color: #12b7f5; border: 1.5px solid #12b7f5; }
 
         .poster-img { width: 100%; height: auto; display: block; pointer-events: none; }
 
@@ -74,13 +55,14 @@
             z-index: 6; filter: drop-shadow(0 0 5px var(--es-yellow));
             animation: float 4s ease-in-out infinite;
         }
-
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
             50% { transform: translateY(-15px) rotate(20deg); opacity: 1; }
         }
 
         .hotspot { position: absolute; cursor: pointer; z-index: 10; border-radius: 50%; }
+
+        /* 跑马灯 */
         .marquee-overlay {
             position: absolute; width: 120%; left: -10%; height: 32px;
             overflow: hidden; display: flex; align-items: center; pointer-events: none; z-index: 5;
@@ -91,41 +73,39 @@
         .marquee-text { font-size: 14px; font-weight: 900; color: white; padding: 0 20px; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* 弹窗系统 */
+        /* 弹窗样式 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.15); z-index: 100; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.2); z-index: 100; justify-content: center; align-items: center;
             backdrop-filter: blur(8px);
         }
         .modal-card {
-            background: var(--glass); width: 90%; max-width: 450px;
-            max-height: 85vh; border-radius: 30px; padding: 25px; border: 2px solid white;
+            background: var(--glass); width: 92%; max-width: 450px; max-height: 85vh;
+            border-radius: 30px; padding: 25px; border: 2px solid white;
             position: relative; overflow: hidden; display: flex; flex-direction: column;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
         }
-        
-        /* QQ 特殊显示样式 */
-        .qq-qr-container { text-align: center; padding: 10px 0; }
-        .qr-placeholder { 
-            width: 180px; height: 180px; background: #eee; margin: 0 auto 15px; 
-            border-radius: 15px; border: 2px dashed #ccc; display: flex; 
-            align-items: center; justify-content: center; font-size: 0.8rem; color: #999;
-        }
-        .qq-num { font-size: 1.5rem; color: #12b7f5; font-weight: 900; letter-spacing: 1px; }
-
         .modal-header { color: var(--es-pink); font-size: 1.3rem; font-weight: 900; text-align: center; margin-bottom: 20px; }
         .clickable-row {
             background: #fff; padding: 15px 20px; border-radius: 15px; margin-bottom: 12px;
             display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; border: 1px solid #eee; font-weight: bold;
+            cursor: pointer; border: 1px solid #eee; font-weight: bold; font-size: 0.95rem;
         }
+        .clickable-row:hover { background: var(--es-blue); color: white; }
+
         .sub-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; border-radius: 30px; padding: 25px; z-index: 20; display: none; flex-direction: column; }
-        .sub-body { flex: 1; overflow-y: auto; color: #555; font-size: 0.9rem; line-height: 1.7; }
-        .group-tip { background: #fff0f3; padding: 12px; border-radius: 12px; border-left: 4px solid var(--es-pink); margin-bottom: 15px; color: #ff4081; font-weight: bold; }
+        .sub-body { flex: 1; overflow-y: auto; color: #555; font-size: 0.9rem; line-height: 1.8; padding-right: 5px; }
+        .sub-body b { color: var(--es-pink); }
+        .group-tip { background: #fff0f3; padding: 12px; border-radius: 12px; border-left: 4px solid var(--es-pink); margin-bottom: 15px; color: #ff4081; font-weight: bold; font-size: 0.85rem; }
+
+        .qq-qr-container { text-align: center; padding: 10px 0; }
+        .qr-placeholder { width: 180px; height: 180px; background: #f0f0f0; margin: 0 auto 15px; border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 2px dashed #ccc; color: #999; }
+        .qq-num { font-size: 1.6rem; color: #12b7f5; font-weight: 900; }
+
         .back-btn { color: var(--es-blue); cursor: pointer; font-weight: bold; margin-bottom: 15px; display: block; }
         .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 22px; color: #ccc; background:none; border:none; }
 
-        /* 坐标固定 */
+        /* 热区 */
         .spot-lineup { top: 1%; right: 11%; width: 10%; height: 4%; }
         .spot-info { top: 1%; right: 2%; width: 7%; height: 4%; }
         .spot-special { top: 23%; left: 12%; width: 18%; height: 9%; transform: rotate(-10deg); }
@@ -134,25 +114,27 @@
         .spot-creative { top: 36%; right: 11%; width: 18%; height: 12%; transform: rotate(10deg); }
         .spot-evermore { top: 51%; right: 0.5%; width: 28%; height: 4%; transform: rotate(-24deg); }
         .spot-location { top: 62%; left: 2.5%; width: 30%; height: 4%; }
+        .venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .venue-box { background: #fdf2f5; border-radius: 10px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: #ffadbc; border: 1px dashed #ffadbc; }
     </style>
 </head>
 <body>
 
     <div class="poster-container">
         <div class="social-bar">
-            <a href="https://space.bilibili.com/你的UID" target="_blank" class="social-icon ic-bili">B</a>
-            <a href="https://v.douyin.com/你的主页" target="_blank" class="social-icon ic-dy">抖</a>
-            <a href="https://www.xiaohongshu.com/user/profile/你的ID" target="_blank" class="social-icon ic-xhs">薯</a>
-            <div class="social-icon ic-qq" onclick="openQQPopup()">Q</div>
+            <a href="#" target="_blank" class="social-icon ic-bili">B站</a>
+            <a href="#" target="_blank" class="social-icon ic-dy">抖音</a>
+            <a href="#" target="_blank" class="social-icon ic-xhs">小红书</a>
+            <div class="social-icon ic-qq" onclick="openQQPopup()">QQ</div>
         </div>
 
         <div class="star" style="top:25%; left:15%; animation-delay: 0s;"></div>
-        <div class="star" style="top:40%; left:50%; animation-delay: 1s; width:3.5%;"></div>
+        <div class="star" style="top:40%; left:50%; width:3.5%;"></div>
         <div class="star" style="top:20%; left:80%; animation-delay: 2s;"></div>
         <div class="star" style="top:65%; left:10%; animation-delay: 0.5s;"></div>
         <div class="star" style="top:50%; left:85%; animation-delay: 1.5s;"></div>
 
-        <img src="bg.png" alt="ES ONLY" class="poster-img">
+        <img src="bg.png" alt="EvermoreStars 未读章节" class="poster-img">
 
         <div class="marquee-overlay m-blue"><div class="marquee-content" id="m1"></div></div>
         <div class="marquee-overlay m-pink"><div class="marquee-content" id="m2"></div></div>
@@ -168,7 +150,7 @@
     </div>
 
     <div class="modal-overlay" id="overlay" onclick="closeAll()">
-        <div class="modal-card" id="mainCard" onclick="event.stopPropagation()">
+        <div class="modal-card" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeAll()">✕</button>
             <div id="mainView">
                 <div class="modal-header" id="menuTitle">TITLE</div>
@@ -178,12 +160,9 @@
             <div id="qqView" style="display:none;">
                 <div class="modal-header">官方游客交流群</div>
                 <div class="qq-qr-container">
-                    <div class="qr-placeholder">
-                        二维码图片位置
-                    </div>
+                    <div class="qr-placeholder">二维码图片位置</div>
                     <p style="color:#666; margin-bottom: 5px;">长按识别或扫码进群</p>
                     <div class="qq-num">1025885088</div>
-                    <p style="font-size: 0.8rem; color:#999; margin-top:10px;">(点击群号可尝试复制 - 需后续功能)</p>
                 </div>
             </div>
 
@@ -196,16 +175,46 @@
     </div>
 
     <script>
-        const GROUP_TIP = '<div class="group-tip">💡 详细招募内容及报名表格请务必进群查看。</div>';
+        const TIP = '<div class="group-tip">💡 详细内容及报名表格请务必进群查看。</div>';
+        
         const config = {
-            mainstage: { title: "★ 主舞台招募", items: [{ label: "一、舞台设备", detail: GROUP_TIP + "尺寸：12.85m*8.03m<br>LED屏：9.6m*6.5m" }, { label: "二、报名流程", detail: GROUP_TIP + "请进群获取正式报名表。" }] },
-            creative: { title: "★ 创意舞台", items: [{ label: "招募详情", detail: GROUP_TIP + "分为舞台剧与音乐表演两类。" }] },
-            fanworks: { title: "★ 同人摊位招募", items: [{ label: "申请流程", detail: GROUP_TIP + "进群 1081280182 了解。" }] },
-            location: { title: "★ 场地指引", items: [{ label: "场馆地址", detail: "上海摩登天空 Modern Sky LAB" }] },
-            info: { title: "★ 品牌内涵", items: [{ label: "主题: CALL", detail: "你注视的光芒，因你而闪耀。" }] },
-            evermore: { title: "★ 更多惊喜", items: [{ label: "敬请期待", detail: "后续互动玩法即将公开。" }] },
-            special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "详情见官方公告。" }] },
-            lineup: { title: "★ 阵容公告", items: [{ label: "GUEST", detail: "嘉宾即将揭晓。" }] }
+            mainstage: {
+                title: "★ 主舞台招募 (15-20组)",
+                items: [
+                    { label: "一、舞台设备详情", detail: TIP + "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (分辨率 1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" },
+                    { label: "二、招募须知", detail: TIP + "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲/舞蹈/组合/洗牌报名。<br>4. 舞蹈时间：3-8分钟。<br>5. 谢绝个人串团及新红月参演。" },
+                    { label: "三、报名流程", detail: TIP + "1. 加入QQ群：<b>1025885088</b>。<br>2. 填写在线预报名表，协商曲目。<br>3. 提交材料：报名表+审核视频。<br>4. 截止时间：2026.05.03 12:00。<br>5. 结果公布：2026.05.05 24:00。" }
+                ]
+            },
+            creative: {
+                title: "★ 创意舞台 (5+5组)",
+                items: [
+                    { label: "一、舞台剧类 (5组)", detail: TIP + "<b>内容：</b>须与ES相关，鼓励改编原创（如月永雷欧x德扎等）。禁止大型搬运道具。" },
+                    { label: "二、音乐表演类 (5组)", detail: TIP + "<b>形式：</b>翻奏、纯器乐版、合唱、乐队(Live)。<br><b>要求：</b>仅限ES官方歌曲。需自备乐器，不接受纯音源伴奏乐队。" },
+                    { label: "三、报名方式", detail: TIP + "加入QQ群：<b>1025885088</b> 获取报名表及视频送审规则。截止 2026.05.03。" }
+                ]
+            },
+            fanworks: {
+                title: "★ 同人摊位招募 (3-6个)",
+                items: [
+                    { label: "一、申摊须知", detail: TIP + "<b>支持：</b>同人志、轻周边。<br><b>严禁：</b>盗图、官图二创、AI产出、食品、官方寄售。<br><b>权益：</b>摊主证x2，桌子x1，椅子x2，普票权益x2。" },
+                    { label: "二、申请流程", detail: TIP + "1. 加入QQ群：<b>1081280182</b>。<br>2. 提交「报名表+预览图」至邮箱：evermorestars@163.com。<br>3. 截止时间：2026.05.15。" }
+                ]
+            },
+            location: {
+                title: "★ 场地指引",
+                items: [
+                    { label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b><br>瑞虹天地月亮湾3F，地铁4号线直达。<br>※ 正式一宣将于2.21日公布。" },
+                    { label: "预览效果图", detail: `<div class="venue-grid"><div class="venue-box">舞台效果</div><div class="venue-box">全场预览</div><div class="venue-box">候场区</div><div class="venue-box">休息室</div></div>` }
+                ]
+            },
+            info: { 
+                title: "★ 品牌内涵", 
+                items: [{ label: "主题: CALL", detail: "<b>口号：</b>你注视的光芒，因你而闪耀。<br>这是一篇由你献上的未读章节。" }] 
+            },
+            evermore: { title: "★ 互动玩法", items: [{ label: "未读章节", detail: "更多现场惊喜玩法，进群解锁第一手资讯。" }] },
+            special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "特殊招募计划详情请关注官群。" }] },
+            lineup: { title: "★ 阵容公告", items: [{ label: "嘉宾阵容", detail: "阵容即将揭晓，敬请关注。" }] }
         };
 
         function openMenu(key) {
@@ -235,10 +244,7 @@
         }
 
         function closeSub() { document.getElementById('subLayer').style.display = 'none'; }
-        function closeAll() { 
-            document.getElementById('overlay').style.display = 'none'; 
-            closeSub();
-        }
+        function closeAll() { document.getElementById('overlay').style.display = 'none'; closeSub(); }
 
         const t = "EVERMORESTARS JULY 19 TH • ";
         const mHtml = `<span class="marquee-text">${t.repeat(12)}</span><span class="marquee-text">${t.repeat(12)}</span>`;
