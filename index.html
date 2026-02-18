@@ -32,7 +32,6 @@
             box-shadow: 0 15px 40px rgba(253, 168, 212, 0.3);
         }
 
-        /* 图标栏 - 已下移至 1.5% */
         .social-bar {
             position: absolute; top: 1.5%; left: 20%; display: flex; gap: 12px; z-index: 20;
         }
@@ -60,7 +59,6 @@
         .spot-evermore { top: 51%; right: 0.5%; width: 28%; height: 4%; transform: rotate(-24deg); }
         .spot-location { top: 62%; left: 2.5%; width: 30%; height: 4%; }
 
-        /* 跑马灯 */
         .marquee-overlay {
             position: absolute; width: 200%; left: -50%; height: 32px;
             overflow: hidden; display: flex; align-items: center; pointer-events: none; z-index: 5;
@@ -78,40 +76,80 @@
             display: inline-block;
         }
 
-        /* 弹窗 */
+        /* 弹窗核心优化：增加高度过渡动画 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.3); z-index: 100; justify-content: center; align-items: flex-start;
             padding-top: 5vh; padding-bottom: 5vh; overflow-y: auto;
         }
         .modal-card {
-            background: var(--glass); width: 92%; max-width: 500px; height: auto; 
+            background: var(--glass); width: 92%; max-width: 500px; 
             border-radius: 30px; padding: 25px; border: 2px solid white;
             position: relative; display: flex; flex-direction: column;
             box-shadow: 0 25px 50px rgba(0,0,0,0.15); margin: auto;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
         }
+
+        #mainView, #subLayer, #qqView {
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .modal-header { color: var(--es-pink); font-size: 1.3rem; font-weight: 900; text-align: center; margin-bottom: 20px; }
         .clickable-row {
             background: #fff; padding: 15px 20px; border-radius: 15px; margin-bottom: 12px;
             display: flex; justify-content: space-between; align-items: center;
             cursor: pointer; border: 1px solid #eee; font-weight: bold;
         }
-        .sub-layer { position: absolute; top: 0; left: 0; width: 100%; min-height: 100%; background: white; border-radius: 30px; padding: 25px; z-index: 20; display: none; flex-direction: column; }
+
+        .sub-layer { width: 100%; background: transparent; display: none; flex-direction: column; }
         .sub-body { color: #555; font-size: 0.95rem; line-height: 1.8; padding-bottom: 20px; }
         
-        /* 进群提示条 - 初始隐藏 */
         .group-tip { 
             display: none; 
             background: #fff0f3; padding: 12px; border-radius: 12px; border-left: 4px solid var(--es-pink); 
             margin-bottom: 15px; color: #ff4081; font-weight: bold; font-size: 0.85rem; 
         }
 
+        /* 场馆图片网格优化 */
+        .venue-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin-top: 15px; 
+        }
+        .venue-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .venue-img { 
+            width: 100%; 
+            aspect-ratio: 16/9; 
+            object-fit: cover; 
+            border-radius: 12px; 
+            border: 2px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            cursor: zoom-in;
+            transition: transform 0.2s;
+        }
+        .venue-img:hover { transform: scale(1.02); }
+        .venue-label {
+            font-size: 0.75rem;
+            color: #ffadbc;
+            text-align: center;
+            font-weight: bold;
+        }
+
         .modal-footer-notice { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #eee; font-size: 0.75rem; color: #999; line-height: 1.5; }
         .back-btn { color: var(--es-blue); cursor: pointer; font-weight: bold; margin-bottom: 15px; display: block; }
         .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 22px; color: #ccc; background:none; border:none; z-index: 30; }
         .site-footer { margin-top: 30px; text-align: center; font-size: 11px; color: #b388ff; letter-spacing: 1px; }
-        .venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-        .venue-box { background: #fdf2f5; border-radius: 10px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: #ffadbc; border: 1px dashed #ffadbc; }
     </style>
 </head>
 <body>
@@ -144,7 +182,7 @@
     </div>
 
     <div class="modal-overlay" id="overlay" onclick="closeAll()">
-        <div class="modal-card" onclick="event.stopPropagation()">
+        <div class="modal-card" id="card" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeAll()">✕</button>
             <div id="mainView">
                 <div class="modal-header" id="menuTitle">TITLE</div>
@@ -169,33 +207,36 @@
 
     <script>
         const config = {
-            mainstage: { 
-                title: "★ 主舞台招募", 
-                items: [
-                    { label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" }, 
-                    { label: "二、招募须知", detail: "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲报名。" }, 
-                    { label: "三、报名流程", detail: "1. 加入QQ群：<b>1025885088</b>。<br>2. 提交报名表及视频。" },
-                    { label: "四、审核嘉宾介绍", detail: "本届主舞台审核嘉宾阵容即将公开，敬请期待。" }
-                ] 
-            },
+            mainstage: { title: "★ 主舞台招募", items: [{ label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" }, { label: "二、招募须知", detail: "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲报名。" }, { label: "三、报名流程", detail: "1. 加入QQ群：<b>1025885088</b>。<br>2. 提交报名表及视频。" }, { label: "四、审核嘉宾介绍", detail: "本届主舞台审核嘉宾阵容即将公开，敬请期待。" }] },
             creative: { title: "★ 创意舞台 (3-5组)", items: [{ label: "一、舞台剧类 ", detail: "须与ES相关，鼓励改编原创。" }, { label: "二、音乐表演类 ", detail: "形式：翻奏、纯器乐版、合唱、乐队。<br>要求：仅限ES官方歌曲。" }, { label: "三、报名方式", detail: "进群获取报名表。" }] },
             fanworks: { title: "★ 同人摊位招募", items: [{ label: "一、申摊须知", detail: "支持同人志、轻周边。严禁盗图、AI产出。" }, { label: "二、申请流程", detail: "1. 加入QQ群：<b>1081280182</b>。<br>2. 提交申请至邮箱。" }] },
-            location: { title: "★ 场地指引", items: [{ label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b><br>瑞虹天地月亮湾 3F，地铁 4 号线直达。" }, { label: "预览效果图", detail: `<div class="venue-grid"><div class="venue-box">舞台效果</div><div class="venue-box">全场预览</div><div class="venue-box">候场区</div><div class="venue-box">休息室</div></div>` }] },
-            info: { title: "★ 品牌内涵", items: [{ label: "主题: CALL", detail: "你注视的光芒，因你而闪耀。" }] },
-            evermore: { 
-                title: "★ 互动玩法", 
+            location: { 
+                title: "★ 场地指引", 
                 items: [
-                    { label: "一、互动应援", detail: "敬请期待" },
-                    { label: "二、互动游戏设计", detail: "敬请期待" },
-                    { label: "三、We Ensemble", detail: "敬请期待" }
+                    { label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b><br>瑞虹天地月亮湾 3F，地铁 4 号线直达。" }, 
+                    { 
+                        label: "预览效果图", 
+                        detail: `
+                        <div class="venue-grid">
+                            <div class="venue-item"><img src="stage1.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 1</div></div>
+                            <div class="venue-item"><img src="stage2.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 2</div></div>
+                            <div class="venue-item"><img src="stage3.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">LED 屏细节</div></div>
+                            <div class="venue-item"><img src="restroom1.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 A</div></div>
+                            <div class="venue-item"><img src="restroom2.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 B</div></div>
+                            <div class="venue-item"><img src="restroom3.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">公共候场区</div></div>
+                        </div>` 
+                    }
                 ] 
             },
+            info: { title: "★ 品牌内涵", items: [{ label: "主题: CALL", detail: "你注视的光芒，因你而闪耀。" }] },
+            evermore: { title: "★ 互动玩法", items: [{ label: "一、互动应援", detail: "敬请期待" }, { label: "二、互动游戏设计", detail: "敬请期待" }, { label: "三、We Ensemble", detail: "敬请期待" }] },
             special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "详情请关注官群。" }] },
             lineup: { title: "★ 阵容公告", items: [{ label: "嘉宾阵容", detail: "阵容即将揭晓。" }] }
         };
 
         function openMenu(key) {
             document.getElementById('qqView').style.display = 'none';
+            document.getElementById('subLayer').style.display = 'none';
             document.getElementById('mainView').style.display = 'block';
             const data = config[key];
             document.getElementById('menuTitle').innerText = data.title;
@@ -213,47 +254,41 @@
         }
 
         function openSub(title, content) {
+            document.getElementById('mainView').style.display = 'none';
             document.getElementById('subTitle').innerText = title;
             document.getElementById('subBody').innerHTML = content;
             
-            // 核心逻辑：判断当前板块是否需要显示进群提示
             const mainTitle = document.getElementById('menuTitle').innerText;
             const tip = document.querySelector('.group-tip');
-            if (mainTitle.includes("主舞台") || mainTitle.includes("创意舞台") || mainTitle.includes("同人摊位")) {
-                tip.style.display = 'block';
-            } else {
-                tip.style.display = 'none';
-            }
+            tip.style.display = (mainTitle.includes("主舞台") || mainTitle.includes("创意舞台") || mainTitle.includes("同人摊位")) ? 'block' : 'none';
 
             document.getElementById('subLayer').style.display = 'flex';
             document.getElementById('overlay').scrollTop = 0; 
         }
 
-        function closeSub() { document.getElementById('subLayer').style.display = 'none'; }
-        function closeAll() { document.getElementById('overlay').style.display = 'none'; closeSub(); }
+        function closeSub() {
+            document.getElementById('subLayer').style.display = 'none';
+            document.getElementById('mainView').style.display = 'block';
+        }
+
+        function closeAll() {
+            document.getElementById('overlay').style.display = 'none';
+            setTimeout(() => {
+                document.getElementById('subLayer').style.display = 'none';
+                document.getElementById('mainView').style.display = 'block';
+            }, 300);
+        }
 
         window.onload = function() {
             const text = "EVERMORESTARS JULY 19 TH • ";
             const container1 = document.getElementById('m1');
             const container2 = document.getElementById('m2');
-            
             const content = `<span class="marquee-inner" style="color:white !important;">${text.repeat(15)}</span>`;
             container1.innerHTML = content + content;
             container2.innerHTML = content + content;
-
-            const innerSpan = container1.querySelector('.marquee-inner');
-            const scrollWidth = innerSpan.offsetWidth;
-
+            const scrollWidth = container1.querySelector('.marquee-inner').offsetWidth;
             const style = document.createElement('style');
-            style.innerHTML = `
-                @keyframes marquee-sync-px {
-                    from { transform: translateX(0); }
-                    to { transform: translateX(-${scrollWidth}px); }
-                }
-                .marquee-content {
-                    animation: marquee-sync-px 35s linear infinite !important;
-                }
-            `;
+            style.innerHTML = `@keyframes marquee-sync-px { from { transform: translateX(0); } to { transform: translateX(-${scrollWidth}px); } } .marquee-content { animation: marquee-sync-px 35s linear infinite !important; }`;
             document.head.appendChild(style);
         };
     </script>
