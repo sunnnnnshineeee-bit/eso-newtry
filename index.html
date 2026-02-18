@@ -23,7 +23,7 @@
             padding: 10px 10px 60px 10px; overflow-x: hidden;
         }
 
-        /* ================= 开屏动画 (5秒 + 粉色加载文字) ================= */
+        /* ================= 开屏动画 ================= */
         #opening-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #fce4ec; display: flex; align-items: center; justify-content: center;
@@ -48,7 +48,7 @@
         }
         @keyframes text-fade { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-        /* ================= 热区交互 (永久闪烁) ================= */
+        /* ================= 热区交互 ================= */
         .poster-container {
             position: relative; width: 100%; max-width: 800px; margin: 0 auto;
             border-radius: 15px; background: #fff; overflow: hidden;
@@ -68,7 +68,7 @@
             50% { background: rgba(255, 255, 255, 0.4); border-color: rgba(255, 255, 255, 1); box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
         }
 
-        /* 热区位置 - 维持你代码中的最新数值 */
+        /* 热区位置 */
         .spot-lineup { top: 0.8%; right: 10.5%; width: 10%; height: 4%; border-radius: 20px; }
         .spot-info { top: 0.8%; right: 2.2%; width: 7%; height: 4%; border-radius: 20px; }
         .spot-special { top: 23%; left: 12%; width: 18%; height: 9%; transform: rotate(-10deg); border-radius: 10px; }
@@ -78,23 +78,29 @@
         .spot-evermore { top: 50.2%; right: 0.1%; width: 28%; height: 4%; transform: rotate(-24.3deg); border-radius: 5px; }
         .spot-location { top: 60.9%; left: 2.0%; width: 30%; height: 4%; border-radius: 5px; }
 
-        /* 社交栏图标 - PC端原始设置 */
+        /* 社交栏图标 - PC端设置保持 1.2% / 18% */
         .social-bar { position: absolute; top: 1.2%; left: 18%; display: flex; gap: 12px; z-index: 20; }
         .social-link { color: #ffffff !important; font-size: 1.1rem; filter: drop-shadow(0 0 2px rgba(0,0,0,0.2)); transition: color 0.3s ease; }
         
-        /* 适配手机端 (不影响PC) */
+        /* 适配手机端 - 尺寸更小，位置往右3%，往上1% */
         @media screen and (max-width: 768px) {
-            .social-bar { top: 0.8%; left: 12%; gap: 8px; }
-            .social-link { font-size: 0.85rem; }
+            .social-bar { 
+                top: 0.2%;    /* 往上 1% (从1.2%减去1%) */
+                left: 21%;   /* 往右 3% (从18%加上3%) */
+                gap: 7px; 
+            }
+            .social-link { 
+                font-size: 0.75rem; /* 进一步缩小 */
+            }
         }
 
-        /* 悬停与点击色设置 */
+        /* 悬停变色 */
         .social-link.bili:hover, .social-link.bili:active { color: #fb7299 !important; }
         .social-link.dy:hover, .social-link.dy:active { color: #000000 !important; }
         .social-link.xhs:hover, .social-link.xhs:active { color: #ff2442 !important; }
         .social-link.qq:hover, .social-link.qq:active { color: #12b7f5 !important; }
 
-        /* 弹窗样式 */
+        /* 弹窗样式完全不变... */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.3); z-index: 100; justify-content: center; align-items: flex-start;
@@ -116,8 +122,6 @@
         .group-tip { background: #fff0f3; padding: 12px; border-radius: 12px; border-left: 4px solid var(--es-pink); margin-bottom: 15px; color: #ff4081; font-weight: bold; font-size: 0.85rem; }
         .back-btn { color: var(--es-blue); cursor: pointer; font-weight: bold; margin-bottom: 15px; display: block; }
         .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 22px; color: #ccc; background:none; border:none; }
-        
-        /* 底部文字 */
         .site-footer { margin-top: 30px; text-align: center; font-size: 10px; color: #b388ff; line-height: 1.6; padding: 0 10px; }
         .qq-qrcode { width: 160px; height: 160px; border-radius: 15px; margin-bottom: 15px; }
     </style>
@@ -185,6 +189,7 @@
     </div>
 
     <script>
+        // JS 逻辑及配置内容完整保留，一字未改
         function hideOpening() {
             const s = document.getElementById("opening-screen");
             if(s) {
