@@ -22,7 +22,8 @@
             background-color: #fce4ec; 
             display: flex; flex-direction: column; align-items: center; 
             min-height: 100vh; font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-            padding: 10px 10px 40px 10px;
+            padding: 10px 10px 60px 10px; /* 增加底部间距 */
+            overflow-x: hidden; /* 防止横向抖动 */
         }
 
         .poster-container {
@@ -31,7 +32,7 @@
             box-shadow: 0 15px 40px rgba(253, 168, 212, 0.3);
         }
 
-        /* --- Icon 组坐标调整 --- */
+        /* --- Icon 坐标微调 --- */
         .social-bar {
             position: absolute; 
             top: 1%;           
@@ -52,7 +53,6 @@
 
         .poster-img { width: 100%; height: auto; display: block; pointer-events: none; }
 
-        /* 热区 */
         .hotspot { position: absolute; cursor: pointer; z-index: 10; border-radius: 50%; }
         .spot-lineup { top: 1%; right: 11%; width: 10%; height: 4%; }
         .spot-info { top: 1%; right: 2%; width: 7%; height: 4%; }
@@ -74,49 +74,45 @@
         .marquee-text { font-size: 14px; font-weight: 900; color: white; padding: 0 20px; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* 弹窗核心优化：解决内容显示不全 */
+        /* 弹窗核心优化：高度自适应，去掉内部滚动条 */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.3); z-index: 100; justify-content: center; align-items: center;
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.3); z-index: 100; justify-content: center; 
+            align-items: flex-start; /* 改为从顶部开始排布，方便长内容滑动 */
+            padding-top: 5vh; padding-bottom: 5vh;
+            overflow-y: auto; /* 允许整个遮罩层上下滑动查看长卡片 */
         }
         .modal-card {
             background: var(--glass); width: 92%; max-width: 500px; 
-            max-height: 80vh; /* 限制最大高度，防止超过屏幕 */
+            height: auto; /* 高度自适应 */
             border-radius: 30px; padding: 25px; border: 2px solid white;
             position: relative; display: flex; flex-direction: column;
             box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            margin: auto; /* 居中显示 */
         }
-        .modal-header { color: var(--es-pink); font-size: 1.3rem; font-weight: 900; text-align: center; margin-bottom: 20px; flex-shrink: 0; }
+        .modal-header { color: var(--es-pink); font-size: 1.3rem; font-weight: 900; text-align: center; margin-bottom: 20px; }
         
-        /* 列表容器滚动 */
-        #itemList { overflow-y: auto; flex: 1; }
-
         .clickable-row {
             background: #fff; padding: 15px 20px; border-radius: 15px; margin-bottom: 12px;
             display: flex; justify-content: space-between; align-items: center;
             cursor: pointer; border: 1px solid #eee; font-weight: bold;
         }
 
-        /* 详情层优化 */
+        /* 详情层优化：不再限制内部高度 */
         .sub-layer { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            position: absolute; top: 0; left: 0; width: 100%; min-height: 100%; 
             background: white; border-radius: 30px; padding: 25px; z-index: 20; 
             display: none; flex-direction: column; 
         }
         .sub-body { 
-            flex: 1; overflow-y: auto; color: #555; font-size: 0.95rem; 
-            line-height: 1.8; padding-right: 10px;
+            color: #555; font-size: 0.95rem; 
+            line-height: 1.8; padding-bottom: 20px;
         }
         
-        /* 自定义滚动条样式 */
-        .sub-body::-webkit-scrollbar { width: 5px; }
-        .sub-body::-webkit-scrollbar-thumb { background: var(--es-pink); border-radius: 10px; }
-
-        .group-tip { background: #fff0f3; padding: 12px; border-radius: 12px; border-left: 4px solid var(--es-pink); margin-bottom: 15px; color: #ff4081; font-weight: bold; font-size: 0.85rem; flex-shrink: 0; }
+        .group-tip { background: #fff0f3; padding: 12px; border-radius: 12px; border-left: 4px solid var(--es-pink); margin-bottom: 15px; color: #ff4081; font-weight: bold; font-size: 0.85rem; }
         .modal-footer-notice {
             margin-top: 15px; padding-top: 15px; border-top: 1px dashed #eee;
-            font-size: 0.75rem; color: #999; line-height: 1.5; flex-shrink: 0;
+            font-size: 0.75rem; color: #999; line-height: 1.5;
         }
 
         .back-btn { color: var(--es-blue); cursor: pointer; font-weight: bold; margin-bottom: 15px; display: block; }
@@ -168,9 +164,8 @@
             <div id="qqView" style="display:none;">
                 <div class="modal-header">官方游客交流群</div>
                 <div style="text-align: center;">
-                    <div style="width:160px; height:160px; background:#f0f0f0; margin:0 auto 15px; border-radius:15px; display:flex; align-items:center; justify-content:center; color:#999; border:2px dashed #ccc;">二维码图片位置</div>
+                    <div style="width:160px; height:160px; background:#f0f0f0; margin:0 auto 15px; border-radius:15px; display:flex; align-items:center; justify-content:center; color:#999; border:2px dashed #ccc;">二维码图片</div>
                     <div style="font-size:1.6rem; color:#12b7f5; font-weight:900;">1025885088</div>
-                    <p style="margin-top:10px; color:#999; font-size:0.8rem;">长按识别或搜群号进群</p>
                 </div>
             </div>
 
@@ -181,7 +176,8 @@
                 <div class="sub-body" id="subBody"></div>
                 <div class="modal-footer-notice">
                     最终解释权归Evermorestars策划组所有。<br>
-                    如有任何疑问及事宜请联系：evermorestars@163.com / QQ：1574511962 <br>
+                    如有任何疑问及事宜请联系：<br>
+                    evermorestars@163.com / QQ：1574511962
                 </div>
             </div>
         </div>
@@ -234,6 +230,7 @@
             data.items.forEach(item => { html += `<div class="clickable-row" onclick="openSub('${item.label}', \`${item.detail}\`)">${item.label}</div>`; });
             document.getElementById('itemList').innerHTML = html;
             document.getElementById('overlay').style.display = 'flex';
+            window.scrollTo(0, 0); // 打开时重置页面滚动
         }
 
         function openQQPopup() {
@@ -247,6 +244,7 @@
             document.getElementById('subTitle').innerText = title;
             document.getElementById('subBody').innerHTML = content;
             document.getElementById('subLayer').style.display = 'flex';
+            document.getElementById('overlay').scrollTop = 0; // 切换详情时回到弹窗顶部
         }
 
         function closeSub() { document.getElementById('subLayer').style.display = 'none'; }
