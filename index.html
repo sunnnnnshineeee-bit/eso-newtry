@@ -16,6 +16,9 @@
             --qq-blue: #12b7f5;
         }
 
+        /* 强制禁用移动端自动字体缩放 */
+        html { -webkit-text-size-adjust: none; text-size-adjust: none; }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
@@ -32,26 +35,33 @@
             box-shadow: 0 15px 40px rgba(253, 168, 212, 0.3);
         }
 
-        /* --- 修复 1: Icon 手机端大小与 PC 保持一致 --- */
+        /* --- 彻底修复 1: Icon 在所有设备尺寸完全一致 --- */
         .social-bar {
             position: absolute; 
             top: 1%;           
             left: 20%;         
             display: flex; 
-            gap: 20px; 
+            gap: 15px; /* 稍微缩小间距以适配小屏 */
             z-index: 20;
         }
 
         .social-link {
             color: #ccc; 
-            font-size: 22px; /* 强制固定像素，不随移动端缩放 */
-            transition: all 0.3s; 
-            text-decoration: none;
+            width: 24px;   /* 强制盒子宽度 */
+            height: 24px;  /* 强制盒子高度 */
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s; 
+            text-decoration: none;
         }
-        .social-link i { font-size: 22px !important; } /* 确保图标字体不受全局干扰 */
+        /* 强制覆盖所有可能的图标缩放 */
+        .social-link i { 
+            font-size: 18px !important; 
+            line-height: 1 !important;
+            display: block !important;
+        }
+        
         .social-link:hover { transform: scale(1.2); }
         .hover-bili:hover { color: var(--bili-blue); }
         .hover-dy:hover { color: #000; }
@@ -70,9 +80,9 @@
         .spot-evermore { top: 51%; right: 0.5%; width: 28%; height: 4%; transform: rotate(-24deg); }
         .spot-location { top: 62%; left: 2.5%; width: 30%; height: 4%; }
 
-        /* --- 修复 2: 跑马灯动画速度同步 --- */
+        /* --- 彻底修复 2: 跑马灯速率统一 --- */
         .marquee-overlay {
-            position: absolute; width: 150%; left: -25%; height: 32px;
+            position: absolute; width: 200%; left: -50%; height: 32px;
             overflow: hidden; display: flex; align-items: center; pointer-events: none; z-index: 5;
         }
         .m-blue { top: 88%; background: var(--es-blue); transform: rotate(-8deg); }
@@ -81,16 +91,22 @@
         .marquee-content { 
             display: flex; 
             white-space: nowrap; 
-            width: fit-content;
-            animation: marquee-sync 30s linear infinite; /* 强制 30s */
+            /* 使用 will-change 优化性能，防止手机端掉帧感 */
             will-change: transform;
+            animation: marquee-fix 30s linear infinite;
         }
         
-        .marquee-text { font-size: 14px; font-weight: 900; color: white; padding: 0 20px; }
+        .marquee-text { 
+            font-size: 14px; 
+            font-weight: 900; 
+            color: white; 
+            padding: 0 40px; /* 增加边距让间断感消失 */
+        }
         
-        @keyframes marquee-sync { 
-            0% { transform: translate3d(0, 0, 0); } 
-            100% { transform: translate3d(-50%, 0, 0); } 
+        /* 使用 transform 匀速平滑移动 */
+        @keyframes marquee-fix { 
+            from { transform: translateX(0); } 
+            to { transform: translateX(-50%); } 
         }
 
         .modal-overlay {
@@ -247,7 +263,6 @@
             data.items.forEach(item => { html += `<div class="clickable-row" onclick="openSub('${item.label}', \`${item.detail}\`)">${item.label}</div>`; });
             document.getElementById('itemList').innerHTML = html;
             document.getElementById('overlay').style.display = 'flex';
-            window.scrollTo(0, 0); 
         }
 
         function openQQPopup() {
@@ -268,8 +283,7 @@
         function closeAll() { document.getElementById('overlay').style.display = 'none'; closeSub(); }
 
         const t = "EVERMORESTARS JULY 19 TH • ";
-        // 使用更长倍数的重复确保动画平滑
-        const mHtml = `<span class="marquee-text">${t.repeat(16)}</span><span class="marquee-text">${t.repeat(16)}</span>`;
+        const mHtml = `<span class="marquee-text">${t.repeat(20)}</span><span class="marquee-text">${t.repeat(20)}</span>`;
         document.getElementById('m1').innerHTML = mHtml;
         document.getElementById('m2').innerHTML = mHtml;
     </script>
