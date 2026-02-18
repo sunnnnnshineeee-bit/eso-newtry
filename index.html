@@ -11,9 +11,6 @@
             --es-pink: #fda8d4;
             --es-yellow: #ffeb3b;
             --glass: rgba(255, 255, 255, 0.98);
-            --bili-blue: #00aeec;
-            --xhs-red: #ff2442;
-            --qq-blue: #12b7f5;
         }
 
         html { -webkit-text-size-adjust: none; text-size-adjust: none; }
@@ -27,39 +24,27 @@
         }
 
         /* ================= 开屏动画 ================= */
-       #opening-screen {
+        #opening-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #fce4ec; /* 使用 body 相同的背景色 */
-            display: flex; align-items: center; justify-content: center;
-            z-index: 999; pointer-events: auto;
+            background-color: #fce4ec; display: flex; align-items: center; justify-content: center;
+            z-index: 999;
         }
         .opening-container { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
-        
-        .animate-ripple {
-            position: absolute; border-radius: 50%;
-            animation: ripple 3s infinite ease-out;
-        }
+        .animate-ripple { position: absolute; border-radius: 50%; animation: ripple 3s infinite ease-out; }
         @keyframes ripple {
             0% { width: 100px; height: 100px; opacity: 1; border-width: 2px; }
             100% { width: 500px; height: 500px; opacity: 0; border-width: 1px; }
         }
-
         .opening-star { width: 160px; height: 160px; z-index: 10; animation: pulse-glow 2s infinite ease-in-out; }
         @keyframes pulse-glow {
             0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(253,168,212,0.5)); }
             50% { transform: scale(1.1); filter: drop-shadow(0 0 30px rgba(124,207,242,0.8)); }
         }
 
-        .loading-text {
-            position: absolute; bottom: 15%; color: var(--es-pink);
-            font-size: 14px; letter-spacing: 0.5em; opacity: 0.6;
-            animation: blink 1.5s infinite;
-        }
-        @keyframes blink { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
-        /* ================= 热区交互 & 闪烁动画 ================= */
+        /* ================= 热区交互 (闪烁 & 点击效果) ================= */
         .poster-container {
             position: relative; width: 100%; max-width: 800px; margin: 0 auto;
-            overflow: hidden; border-radius: 15px; background: #fff;
+            border-radius: 15px; background: #fff; overflow: hidden;
             box-shadow: 0 15px 40px rgba(253, 168, 212, 0.3);
         }
         .poster-img { width: 100%; height: auto; display: block; pointer-events: none; }
@@ -68,25 +53,22 @@
             position: absolute; cursor: pointer; z-index: 10; 
             background: rgba(255, 255, 255, 0.2); 
             border: 1.5px solid rgba(255, 255, 255, 0.7);
-            /* 呼吸闪烁动画 */
             animation: hotspot-glow 2s infinite ease-in-out;
             transition: all 0.3s ease;
         }
-
-        /* 点击后的状态：停止动画 */
+        /* 点击后停止闪烁 */
         .hotspot.visited {
-            animation: none;
+            animation: none !important;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            opacity: 0.6;
+            opacity: 0.5;
         }
-
         @keyframes hotspot-glow {
             0%, 100% { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); }
             50% { background: rgba(255, 255, 255, 0.4); border-color: rgba(255, 255, 255, 1); box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
         }
 
-        /* 位置参数 */
+        /* 热区位置 */
         .spot-lineup { top: 1%; right: 11%; width: 10%; height: 4%; border-radius: 20px; }
         .spot-info { top: 1%; right: 2%; width: 7%; height: 4%; border-radius: 20px; }
         .spot-special { top: 23%; left: 12%; width: 18%; height: 9%; transform: rotate(-10deg); border-radius: 10px; }
@@ -100,14 +82,12 @@
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.3); z-index: 100; justify-content: center; align-items: flex-start;
-            padding-top: 5vh; padding-bottom: 5vh; overflow-y: auto;
+            padding-top: 5vh; overflow-y: auto;
         }
         .modal-card {
             background: var(--glass); width: 92%; max-width: 500px; 
             border-radius: 30px; padding: 25px; border: 2px solid white;
-            position: relative; display: flex; flex-direction: column;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15); margin: auto;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.15); margin: auto;
         }
         .modal-header { color: var(--es-pink); font-size: 1.3rem; font-weight: 900; text-align: center; margin-bottom: 20px; }
         .clickable-row {
@@ -120,10 +100,11 @@
         .group-tip { background: #fff0f3; padding: 12px; border-radius: 12px; border-left: 4px solid var(--es-pink); margin-bottom: 15px; color: #ff4081; font-weight: bold; font-size: 0.85rem; }
         .venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
         .venue-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 12px; border: 2px solid #fff; }
+        .venue-label { text-align: center; font-size: 0.8rem; color: #888; margin-top: 4px; }
         .back-btn { color: var(--es-blue); cursor: pointer; font-weight: bold; margin-bottom: 15px; display: block; }
         .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 22px; color: #ccc; background:none; border:none; }
         .social-bar { position: absolute; top: 1.5%; left: 20%; display: flex; gap: 12px; z-index: 20; }
-        .social-link { color: #ccc; transition: all 0.3s; }
+        .social-link { color: #ccc; }
         .site-footer { margin-top: 30px; text-align: center; font-size: 11px; color: #b388ff; }
         .qq-qrcode { width: 160px; height: 160px; border-radius: 15px; margin-bottom: 15px; border: 2px dashed #eee; }
     </style>
@@ -188,38 +169,43 @@
     </div>
 
     <script>
-        // 开屏动画
-        window.addEventListener("load", () => {
-            setTimeout(() => {
-                const s = document.getElementById("opening-screen");
-                s.style.transition = "opacity 1s";
+        // 开屏逻辑
+        function hideOpening() {
+            const s = document.getElementById("opening-screen");
+            if(s) {
+                s.style.transition = "opacity 0.8s";
                 s.style.opacity = "0";
-                setTimeout(() => s.remove(), 1000);
-            }, 2500);
-        });
+                setTimeout(() => s.remove(), 800);
+            }
+        }
+        document.addEventListener("DOMContentLoaded", () => setTimeout(hideOpening, 2500));
+        window.addEventListener("load", hideOpening);
 
-        // 还原后的完整配置数据
-      <script>
+        // --- 核心配置：完全展开，无省略 ---
+       <script>
         const config = {
-            mainstage: { title: "★ 主舞台招募", items: [{ label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" }, { label: "二、招募须知", detail: "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲报名。<br>4.服装凡官方任意平台出现过即可。<br>5. 舞蹈可混剪，时间最短不低于3分钟，最长不超过8分钟。" }, { label: "三、报名流程", detail: "1. 加入舞台审核群：QQ群号10258850882.<br> 2.下载并填写招募说明...详情请进群。" }] },
-            creative: { title: "★ 创意舞台 (3-5组)", items: [{ label: "一、舞台剧类 ", detail: "1. 舞台类型请大胆提案...内容须与ES相关。" }, { label: "二、音乐表演类 ", detail: "1. 仅接受偶像梦幻祭官方歌曲..." }] },
-            fanworks: { title: "★ 同人摊位招募", items: [{ label: "一、申摊须知", detail: "1.支持同人志、轻周边。严禁盗图、AI产出。" }, { label: "二、申请流程", detail: "1. 加入QQ群：<b>1081280182</b>。" }] },
+            mainstage: { title: "★ 主舞台招募", items: [{ label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" }, { label: "二、招募须知", detail: "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲报名。<br>4.服装凡官方任意平台出现过即可。<br>5. 舞蹈可混剪，时间最短不低于3分钟，最长不超过8分钟。" }, { label: "三、报名流程", detail: "1. 加入舞台审核群：QQ群号10258850882.<br> 2.自行下载《Everstars舞台招募》了解招募须知、内容说明、审核规则、报名方式等详情。<br>3. 前往群公告《中央舞台预报名表》在线编辑表填写团队队名及预报名曲目。<br>4. 前往群文件中自行下载并填写《创意舞台报名表》<br>5. 提交审核材料<br>6. 提交成功后如24小时内未收到成功接收的邮件反馈，请各团队长立刻联系主舞台审核群管理" }, { label: "四、审核嘉宾介绍", detail: "本届主舞台审核嘉宾阵容即将公开，敬请期待。" }] },
+            creative: { title: "★ 创意舞台 (3-5组)", items: [{ label: "一、舞台剧类 ", detail: "1. 舞台类型请大胆提案——eg.或许你想看饿死妹自己的环文广：【月永雷欧x德扎 ｜人如何逃离自己的阴影】【五奇人x法红黑 ｜荣耀为我俯首】<br>2. 节目内容需与偶像梦幻祭世界观、角色或剧情设定明确相关。表演选题不作具体限制，可涵盖原作剧情改编，或英美、法、德奥、日韩等地区的原创或改编剧目；但请避免选择其他 IP舞台的 crossover 内容。<br>3. 为维护场馆环境整洁及观演体验，舞台表演 原则上避免大型道具搬运，以及血浆、纸花等喷射或抛洒类道具。如确属演出需要，请提前向主办方报备并取得确认；同时鼓励以更安全、灵活、富有创意的方式进行呈现替代。<br>4. 节目创作与演出须 尊重舞台、作品及角色形象，内容不得涉及任何 敏感、色情、暴力血腥或现实争议性话题；严禁出现任何形式的 “角色黑”、恶意丑化、侮辱性改编或不当重构。" }, { label: "二、音乐表演类 ", detail: "1. 音乐表演类舞台仅接受偶像梦幻祭官方歌曲（含国日服游戏内全曲目版本、官方演唱会曲目版本、官方舞台剧内曲目及联动曲目等）；同时鼓励富有创意的方式改编选曲（如将人声改为纯器乐版、编曲改为管弦乐、制作歌曲串烧等等）。<br>2. 音乐表演类舞台形式包括但不限于：器乐独奏（可配合伴奏）/器乐合奏/合唱/乐队演唱 （乐队演唱须为 live 演奏形式，不接受纯音源伴奏）<br>3. 演出所需话筒、音箱、功放等基础音响设备由场地方统一提供；表演者需自行携带乐器及个人使用设备；同时，为避免大型道具搬运，如演出为钢琴演奏，请携带电子键盘。" }, { label: "三、报名方式", detail: "1. 加入舞台审核群：QQ群号10258850882.<br> 2.自行下载《Everstars舞台招募》了解招募须知、内容说明、审核规则、报名方式等详情。<br>3. 前往群公告《中央舞台预报名表》在线编辑表填写团队队名及预报名曲目。<br>4. 前往群文件中自行下载并填写《创意舞台报名表》<br>5. 提交审核材料<br>6. 提交成功后如24小时内未收到成功接收的邮件反馈，请各团队长立刻联系创意舞台审核群管理。" }] },
+            fanworks: { title: "★ 同人摊位招募", items: [{ label: "一、申摊须知", detail: "1.支持同人志、轻周边。严禁盗图、AI产出。<br>2. 摊主须年满 18 周岁，并具备完全民事行为能力，确保有经济能力保证一定的下定量。<br>3. 摊位制品内容须与【偶像梦幻祭】IP 相关。<br>4. 不接受食品 / 饮品类摊位申请。<br>5. 本次摊位申请不接受官方寄售。<br>6. 所有摊位需确定1名负责人对接活动事宜，承担摊位法律责任，确保按时参与搭建。" }, { label: "二、申请流程", detail: "1. 加入QQ群：<b>1081280182</b>。<br>2. 提交申请至邮箱。<br>3. 提交成功后如24小时内未收到成功接收的邮件反馈，请各负责人立刻联系同人摊位审核群同人UGC管理。<br>4. 在审核过程中，部分作者会收到来自主办的私信或邮件，提出一些审核中发现需要完善的信息或进行信息核验。" }] },
             location: { 
                 title: "★ 场地指引", 
                 items: [
-                    { label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b>" }, 
-                    { label: "预览效果图", detail: `<div class="venue-grid">
-                        <div class="venue-item"><img src="stage1.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 1</div></div>
-                        <div class="venue-item"><img src="stage2.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 2</div></div>
-                        <div class="venue-item"><img src="restroomA.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 A</div></div>
-                        <div class="venue-item"><img src="restroomB.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 B</div></div>
-                    </div>` }
+                    { label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b><br>瑞虹天地月亮湾 3F，地铁 4 号线直达。" }, 
+                    { 
+                        label: "预览效果图", 
+                        detail: `<div class="venue-grid">
+                            <div class="venue-item"><img src="stage1.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 1</div></div>
+                            <div class="venue-item"><img src="stage2.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 2</div></div>
+                            <div class="venue-item"><img src="stage3.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台正面</div></div>
+                            <div class="venue-item"><img src="restroomA.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 A</div></div>
+                            <div class="venue-item"><img src="restroomB.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 B</div></div>
+                            <div class="venue-item"><img src="restroomC.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">公共候场区</div></div>
+                        </div>`
                 ] 
             },
             info: { title: "★ 品牌内涵", items: [{ label: "主题: CALL", detail: "你注视的光芒，因你而闪耀。" }] },
-            evermore: { title: "★ 互动玩法", items: [{ label: "一、互动应援", detail: "敬请期待" }] },
-            special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "详情请关注官群。" }] },
-
+            evermore: { title: "★ 互动玩法", items: [{ label: "一、互动应援", detail: "敬请期待，包含现场专属打Call设计。" }] },
+            special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "包含NPC、摄影及志愿者招募，详情请关注官方社群。" }] },
             lineup: { 
                 title: "★ 快捷导航", 
                 items: [
@@ -232,9 +218,9 @@
             }
         };
 
-        // 处理点击并记录访问状态
+        // 交互逻辑
         function handleHotspotClick(el, key) {
-            el.classList.add('visited'); // 添加访问过的类，停止闪烁
+            el.classList.add('visited'); 
             openMenu(key);
         }
 
@@ -263,7 +249,6 @@
             document.getElementById('mainView').style.display = 'none';
             document.getElementById('subTitle').innerText = title;
             document.getElementById('subBody').innerHTML = content;
-            // 只有特定板块显示提示
             const showTip = parentTitle.includes("舞台") || parentTitle.includes("摊位");
             document.getElementById('subTip').style.display = showTip ? 'block' : 'none';
             document.getElementById('subLayer').style.display = 'flex';
@@ -274,10 +259,8 @@
             document.getElementById('mainView').style.display = 'block';
         }
 
-        function closeAll() {
-            document.getElementById('overlay').style.display = 'none';
-        }
-
+        function closeAll() { document.getElementById('overlay').style.display = 'none'; }
+        
         function openQQPopup() {
             document.getElementById('mainView').style.display = 'none';
             document.getElementById('subLayer').style.display = 'none';
