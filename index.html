@@ -27,23 +27,35 @@
         }
 
         /* ================= 开屏动画 ================= */
-        #opening-screen {
+       #opening-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #fce4ec; display: flex; align-items: center; justify-content: center;
-            z-index: 999;
+            background-color: #fce4ec; /* 使用 body 相同的背景色 */
+            display: flex; align-items: center; justify-content: center;
+            z-index: 999; pointer-events: auto;
         }
         .opening-container { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
-        .animate-ripple { position: absolute; border-radius: 50%; animation: ripple 3s infinite ease-out; }
+        
+        .animate-ripple {
+            position: absolute; border-radius: 50%;
+            animation: ripple 3s infinite ease-out;
+        }
         @keyframes ripple {
             0% { width: 100px; height: 100px; opacity: 1; border-width: 2px; }
             100% { width: 500px; height: 500px; opacity: 0; border-width: 1px; }
         }
+
         .opening-star { width: 160px; height: 160px; z-index: 10; animation: pulse-glow 2s infinite ease-in-out; }
         @keyframes pulse-glow {
             0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(253,168,212,0.5)); }
             50% { transform: scale(1.1); filter: drop-shadow(0 0 30px rgba(124,207,242,0.8)); }
         }
 
+        .loading-text {
+            position: absolute; bottom: 15%; color: var(--es-pink);
+            font-size: 14px; letter-spacing: 0.5em; opacity: 0.6;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
         /* ================= 热区交互 & 闪烁动画 ================= */
         .poster-container {
             position: relative; width: 100%; max-width: 800px; margin: 0 auto;
