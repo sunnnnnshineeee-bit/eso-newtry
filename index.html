@@ -180,6 +180,16 @@
     transition: transform 0.2s;
 }
 .guest-socials a:active { transform: scale(0.9); }
+
+        /* 嘉宾姓名小标题样式 */
+.guest-name-title {
+    color: var(--es-blue); /* 使用你定义好的蓝色 */
+    font-size: 1.2rem;     /* 比正文大一点 */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;   /* 距离下方图片的间距 */
+    display: block;        /* 确保独占一行 */
+}
     </style>
 </head>
 <body>
@@ -270,11 +280,27 @@
                 items: [
                     { 
                         label: "紫嘉儿", 
-                        detail: `<div class="guest-card"><img src="zijiaer.png" class="guest-img"><div class="guest-socials"><a href="https://b23.tv/8yRFkRW" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a><a href="https://v.douyin.com/MsrDwIVQqlg/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a><a href="https://xhslink.com/m/5rGPKHXQ4fU" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a></div></div>` 
+                        detail: `<div class="guest-card">
+                                    <span class="guest-name-title">紫嘉儿</span>
+                                    <img src="zijiaer.png" class="guest-img">
+                                    <div class="guest-socials">
+                                        <a href="https://b23.tv/8yRFkRW" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
+                                        <a href="https://v.douyin.com/MsrDwIVQqlg/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
+                                        <a href="https://xhslink.com/m/5rGPKHXQ4fU" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
+                                    </div>
+                                 </div>` 
                     },
                     { 
                         label: "沉煜", 
-                        detail: `<div class="guest-card"><img src="chenyu.png" class="guest-img"><div class="guest-socials"><a href="https://b23.tv/YiucT3A" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a><a href="https://v.douyin.com/yZPZPL2SolY/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a><a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a></div></div>` 
+                        detail: `<div class="guest-card">
+                                    <span class="guest-name-title">沉煜</span>
+                                    <img src="chenyu.jpg" class="guest-img">
+                                    <div class="guest-socials">
+                                        <a href="https://b23.tv/YiucT3A" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
+                                        <a href="https://v.douyin.com/yZPZPL2SolY/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
+                                        <a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
+                                    </div>
+                                 </div>` 
                     }
                 ]
             },
