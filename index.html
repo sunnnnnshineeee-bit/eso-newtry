@@ -147,51 +147,41 @@
     color: #888;
     margin-top: 4px;
 }
-   /* 嘉宾卡片：垂直布局 */
-.guest-card {
-    background: #fff;
-    border-radius: 15px;
-    padding: 15px;
-    border: 1px solid #fce4ec;
-    display: flex;
-    flex-direction: column; /* 从上往下排列 */
-    align-items: center;
-    gap: 12px;
-}
-
-/* 顶部名字和图标横排 */
-.guest-header-top {
+ /* 嘉宾词条内的名字和图标行 */
+.guest-title-box {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 15px;
     width: 100%;
 }
 
 .guest-name-blue {
     color: var(--es-blue);
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: bold;
 }
 
-.guest-socials-mini {
+.guest-icons {
     display: flex;
     gap: 10px;
 }
 
-.guest-socials-mini a {
-    font-size: 1rem;
-    color: #ddd; /* 初始颜色较浅，保持清爽 */
+.guest-icons a {
+    font-size: 0.95rem;
+    color: #ccc;
+    transition: color 0.3s;
 }
 
-/* 长方形图片样式（模仿卡面） */
-.guest-img-rect {
-    width: 100%;       /* 宽度占满卡片 */
-    max-width: 320px;  /* 限制最大宽度防止过大 */
-    aspect-ratio: 4 / 3; /* 强制长方形比例 */
+/* 适配卡片宽度的长方形图片 */
+.guest-img-full {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9; /* 标准长方形比例 */
     object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 12px;
+    display: block;
+    margin: 5px 0;
 }
     </style>
 </head>
@@ -282,32 +272,34 @@
                 title: "★ 审核嘉宾详情",
                 items: [
                     { 
-                        label: "紫嘉儿", 
-                        detail: `<div class="guest-card">
-                                    <div class="guest-header-row">
-                                        <span class="guest-name-title">紫嘉儿</span>
-                                        <div class="guest-socials-small">
-                                            <a href="https://b23.tv/8yRFkRW" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
-                                            <a href="https://v.douyin.com/MsrDwIVQqlg/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
-                                            <a href="https://xhslink.com/m/5rGPKHXQ4fU" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
-                                        </div>
+                        label: "紫嘉儿 ", 
+                        detail: `<div class="guest-title-box">
+                                    <span class="guest-name-blue">紫嘉儿</span>
+                                    <div class="guest-icons">
+                                        <a href="https://b23.tv/8yRFkRW" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
+                                        <a href="https://v.douyin.com/MsrDwIVQqlg/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
+                                        <a href="https://xhslink.com/m/5rGPKHXQ4fU" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
                                     </div>
-                                    <img src="zijiaer.png" class="guest-img-fixed">
                                  </div>` 
                     },
                     { 
+                        label: "", 
+                        detail: `<img src="zijiaer.png" class="guest-img-full">` 
+                    },
+                    { 
                         label: "沉煜", 
-                        detail: `<div class="guest-card">
-                                    <div class="guest-header-row">
-                                        <span class="guest-name-title">沉煜</span>
-                                        <div class="guest-socials-small">
-                                            <a href="https://b23.tv/YiucT3A" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
-                                            <a href="https://v.douyin.com/yZPZPL2SolY/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
-                                            <a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
-                                        </div>
+                        detail: `<div class="guest-title-box">
+                                    <span class="guest-name-blue">沉煜</span>
+                                    <div class="guest-icons">
+                                        <a href="https://b23.tv/YiucT3A" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
+                                        <a href="https://v.douyin.com/yZPZPL2SolY/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
+                                        <a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
                                     </div>
-                                    <img src="chenyu.jpg" class="guest-img-fixed">
                                  </div>` 
+                    },
+                    { 
+                        label: "", 
+                        detail: `<img src="chenyu.jpg" class="guest-img-full">` 
                     }
                 ]
             },
@@ -353,25 +345,29 @@
         };
 
 function openMenu(key) {
-    const data = config[key];
-    if(!data) return;
-    document.getElementById('qqView').style.display = 'none';
-    document.getElementById('subLayer').style.display = 'none';
-    document.getElementById('mainView').style.display = 'block';
-    document.getElementById('menuTitle').innerText = data.title;
-    let html = '';
-    data.items.forEach(item => {
-        if(item.detail.startsWith("link:")) {
-            const target = item.detail.split(":")[1];
-            html += `<div class="clickable-row" onclick="openMenu('${target}')">${item.label} <i class="fas fa-chevron-right"></i></div>`;
-        } else {
-            // 重点修复：去掉了之前可能存在的 \`)"> 乱码字符
-            html += `<div class="clickable-row" onclick="openSub('${data.title}', '${item.label}', \`${item.detail}\`)">${item.label}</div>`;
+            const data = config[key];
+            if(!data) return;
+            
+            // 重置视图状态
+            document.getElementById('qqView').style.display = 'none';
+            document.getElementById('subLayer').style.display = 'none';
+            document.getElementById('mainView').style.display = 'block';
+            document.getElementById('menuTitle').innerText = data.title;
+            
+            let html = '';
+            data.items.forEach(item => {
+                if(item.detail.startsWith("link:")) {
+                    const target = item.detail.split(":")[1];
+                    html += `<div class="clickable-row" onclick="openMenu('${target}')">${item.label} <i class="fas fa-chevron-right"></i></div>`;
+                } else {
+                    // 彻底移除所有可能导致乱码的拼接字符
+                    html += `<div class="clickable-row" onclick="openSub('${data.title}', '${item.label}', \`${item.detail}\`)">${item.label}</div>`;
+                }
+            });
+            
+            document.getElementById('itemList').innerHTML = html;
+            document.getElementById('overlay').style.display = 'flex';
         }
-    });
-    document.getElementById('itemList').innerHTML = html;
-    document.getElementById('overlay').style.display = 'flex';
-}
 
         function openSub(p, t, c) {
             document.getElementById('mainView').style.display = 'none';
