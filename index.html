@@ -147,48 +147,52 @@
     color: #888;
     margin-top: 4px;
 }
-        /* 嘉宾卡片样式 */
+      /* 嘉宾卡片容器 */
 .guest-card {
     background: #fff;
-    border-radius: 15px;
-    padding: 10px;
+    border-radius: 20px;
+    padding: 15px;
     border: 1px solid #fce4ec;
-}
-.guest-img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    display: block;
-    margin-bottom: 15px;
-}
-.guest-socials {
     display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding-bottom: 10px;
+    flex-direction: column;
+    align-items: center;
 }
-}
-.guest-name {
-    font-size: 1.1rem;
-    font-weight: 900;
-    color: var(--es-pink);
-    text-align: center;
-    margin-bottom: 10px;
-}
-.guest-socials a {
-    font-size: 1.2rem;
-    transition: transform 0.2s;
-}
-.guest-socials a:active { transform: scale(0.9); }
 
-        /* 嘉宾姓名小标题样式 */
+/* 顶部标题行：名字和图标横向排列 */
+.guest-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* 名字和图标之间的间距 */
+    margin-bottom: 12px;
+    width: 100%;
+}
+
 .guest-name-title {
-    color: var(--es-blue); /* 使用你定义好的蓝色 */
-    font-size: 1.2rem;     /* 比正文大一点 */
+    color: var(--es-blue);
+    font-size: 1.1rem;
     font-weight: bold;
-    text-align: center;
-    margin-bottom: 10px;   /* 距离下方图片的间距 */
-    display: block;        /* 确保独占一行 */
+    margin: 0;
+}
+
+/* 社交图标缩小并横排 */
+.guest-socials-small {
+    display: flex;
+    gap: 10px;
+}
+
+.guest-socials-small a {
+    font-size: 0.9rem; /* 图标小一点 */
+    color: #ccc;
+}
+
+/* 统一图片尺寸：缩小并保持比例 */
+.guest-img-fixed {
+    width: 180px;  /* 统一宽度，你可以根据需要调整 */
+    height: 180px; /* 统一高度 */
+    object-fit: cover; /* 自动裁剪，防止图片拉伸变形 */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
     </style>
 </head>
@@ -275,31 +279,35 @@
                     { label: "四、审核嘉宾介绍", detail: "link:guests" }
                 ] 
             },
-            guests: {
+           guests: {
                 title: "★ 审核嘉宾详情",
                 items: [
                     { 
-                        
+                        label: "紫嘉儿", 
                         detail: `<div class="guest-card">
-                                    <span class="guest-name-title">紫嘉儿</span>
-                                    <img src="zijiaer.png" class="guest-img">
-                                    <div class="guest-socials">
-                                        <a href="https://b23.tv/8yRFkRW" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
-                                        <a href="https://v.douyin.com/MsrDwIVQqlg/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
-                                        <a href="https://xhslink.com/m/5rGPKHXQ4fU" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
+                                    <div class="guest-header-row">
+                                        <span class="guest-name-title">紫嘉儿</span>
+                                        <div class="guest-socials-small">
+                                            <a href="https://b23.tv/8yRFkRW" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
+                                            <a href="https://v.douyin.com/MsrDwIVQqlg/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
+                                            <a href="https://xhslink.com/m/5rGPKHXQ4fU" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
+                                        </div>
                                     </div>
+                                    <img src="zijiaer.png" class="guest-img-fixed">
                                  </div>` 
                     },
                     { 
-                     
+                        label: "沉煜", 
                         detail: `<div class="guest-card">
-                                    <span class="guest-name-title">沉煜</span>
-                                    <img src="chenyu.jpg" class="guest-img">
-                                    <div class="guest-socials">
-                                        <a href="https://b23.tv/YiucT3A" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
-                                        <a href="https://v.douyin.com/yZPZPL2SolY/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
-                                        <a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
+                                    <div class="guest-header-row">
+                                        <span class="guest-name-title">沉煜</span>
+                                        <div class="guest-socials-small">
+                                            <a href="https://b23.tv/YiucT3A" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
+                                            <a href="https://v.douyin.com/yZPZPL2SolY/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
+                                            <a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
+                                        </div>
                                     </div>
+                                    <img src="chenyu.png" class="guest-img-fixed">
                                  </div>` 
                     }
                 ]
@@ -345,7 +353,7 @@
             }
         };
 
-        function openMenu(key) {
+ function openMenu(key) {
             const data = config[key];
             if(!data) return;
             document.getElementById('qqView').style.display = 'none';
@@ -358,6 +366,7 @@
                     const target = item.detail.split(":")[1];
                     html += `<div class="clickable-row" onclick="openMenu('${target}')">${item.label} <i class="fas fa-chevron-right"></i></div>`;
                 } else {
+                    // 关键点：这里直接传 item.label，不要在字符串里写多余的 ")> 
                     html += `<div class="clickable-row" onclick="openSub('${data.title}', '${item.label}', \`${item.detail}\`)">${item.label}</div>`;
                 }
             });
