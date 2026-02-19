@@ -77,20 +77,12 @@
         .spot-evermore { top: 50.2%; right: 0.1%; width: 28%; height: 4%; transform: rotate(-24.3deg); border-radius: 5px; }
         .spot-location { top: 60.9%; left: 2.0%; width: 30%; height: 4%; border-radius: 5px; }
 
-        /* 社交栏图标 - PC端设置保持 1.2% / 18% */
         .social-bar { position: absolute; top: 1.2%; left: 18%; display: flex; gap: 12px; z-index: 20; }
         .social-link { color: #ffffff !important; font-size: 1.1rem; filter: drop-shadow(0 0 2px rgba(0,0,0,0.2)); transition: color 0.3s ease; }
         
-        /* 适配手机端 - 最终参数微调 */
         @media screen and (max-width: 768px) {
-            .social-bar { 
-                top: 0.4%;    /* 在 0.2% 基础上往下来 0.2% */
-                left: 19%;   /* 在 20.5% 基础上往左移动 1.5% */
-                gap: 5px; 
-            }
-            .social-link { 
-                font-size: 0.65rem; /* 再缩小一点点 */
-            }
+            .social-bar { top: 0.4%; left: 19%; gap: 5px; }
+            .social-link { font-size: 0.65rem; }
         }
 
         .social-link.bili:hover, .social-link.bili:active { color: #fb7299 !important; }
@@ -122,67 +114,17 @@
         .site-footer { margin-top: 30px; text-align: center; font-size: 10px; color: #b388ff; line-height: 1.6; padding: 0 10px; }
         .qq-qrcode { width: 160px; height: 160px; border-radius: 15px; margin-bottom: 15px; }
 
-        /* 场地预览图网格布局 */
-.venue-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 两列布局 */
-    gap: 10px;
-    width: 100%;
-    margin-top: 10px;
-}
-.venue-item {
-    width: 100%;
-    text-align: center;
-}
-.venue-img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    display: block;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-.venue-label {
-    font-size: 0.75rem;
-    color: #888;
-    margin-top: 4px;
-}
- /* 嘉宾词条内的名字和图标行 */
-.guest-title-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    width: 100%;
-}
+        .venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 10px; }
+        .venue-item { width: 100%; text-align: center; }
+        .venue-img { width: 100%; height: auto; border-radius: 10px; display: block; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .venue-label { font-size: 0.75rem; color: #888; margin-top: 4px; }
 
-.guest-name-blue {
-    color: var(--es-blue);
-    font-size: 1.1rem;
-    font-weight: bold;
-}
-
-.guest-icons {
-    display: flex;
-    gap: 10px;
-}
-
-.guest-icons a {
-    font-size: 0.95rem;
-    color: #ccc;
-    transition: color 0.3s;
-}
-
-/* 适配卡片宽度的长方形图片 */
-.guest-img-full {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9; /* 标准长方形比例 */
-    object-fit: cover;
-    border-radius: 12px;
-    display: block;
-    margin: 5px 0;
-}
+        /* 嘉宾样式 */
+        .guest-title-box { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
+        .guest-name-blue { color: var(--es-blue); font-size: 1.1rem; font-weight: bold; }
+        .guest-icons { display: flex; gap: 10px; }
+        .guest-icons a { font-size: 0.95rem; color: #ccc; }
+        .guest-img-full { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; display: block; margin: 5px 0; }
     </style>
 </head>
 <body>
@@ -248,7 +190,7 @@
     </div>
 
     <script>
-       function hideOpening() {
+        function hideOpening() {
             const s = document.getElementById("opening-screen");
             if(s) {
                 s.style.transition = "opacity 1s ease";
@@ -268,37 +210,23 @@
                     { label: "四、审核嘉宾介绍", detail: "link:guests" }
                 ] 
             },
-           guests: {
+            guests: {
                 title: "★ 审核嘉宾详情",
                 items: [
                     { 
-                        label: "紫嘉儿 ", 
-                        detail: `<div class="guest-title-box">
-                                    <span class="guest-name-blue">紫嘉儿</span>
-                                    <div class="guest-icons">
-                                        <a href="https://b23.tv/8yRFkRW" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
-                                        <a href="https://v.douyin.com/MsrDwIVQqlg/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
-                                        <a href="https://xhslink.com/m/5rGPKHXQ4fU" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
-                                    </div>
-                                 </div>` 
+                        label: "紫嘉儿 · 社交账号", 
+                        detail: `<div class="guest-title-box"><span class="guest-name-blue">紫嘉儿</span><div class="guest-icons"><a href="https://b23.tv/8yRFkRW" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a><a href="https://v.douyin.com/MsrDwIVQqlg/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a><a href="https://xhslink.com/m/5rGPKHXQ4fU" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a></div></div>` 
                     },
                     { 
-                        label: "", 
+                        label: "紫嘉儿 · 形象展示", 
                         detail: `<img src="zijiaer.png" class="guest-img-full">` 
                     },
                     { 
-                        label: "沉煜", 
-                        detail: `<div class="guest-title-box">
-                                    <span class="guest-name-blue">沉煜</span>
-                                    <div class="guest-icons">
-                                        <a href="https://b23.tv/YiucT3A" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
-                                        <a href="https://v.douyin.com/yZPZPL2SolY/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
-                                        <a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
-                                    </div>
-                                 </div>` 
+                        label: "沉煜 · 社交账号", 
+                        detail: `<div class="guest-title-box"><span class="guest-name-blue">沉煜</span><div class="guest-icons"><a href="https://b23.tv/YiucT3A" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a><a href="https://v.douyin.com/yZPZPL2SolY/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a><a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a></div></div>` 
                     },
                     { 
-                        label: "", 
+                        label: "沉煜 · 形象展示", 
                         detail: `<img src="chenyu.jpg" class="guest-img-full">` 
                     }
                 ]
@@ -322,7 +250,7 @@
                 title: "★ 场地指引",  
                 items: [
                     { label: "场馆地址", detail: "<b>上海虹口区瑞虹路188号月亮湾3楼 Morden Sky LAB 摩登天空</b><br><b>交通方式</b>：1.地铁四号线临平路站1、2号出口，步行10分钟左右<br>2.地铁十号线邮电新村站2号出口，步行10分钟左右。<br>3.十四路公交车四平路新港路站，步行10分钟左右" },  
-                    { label: "", detail: `<div class="venue-grid">
+                    { label: "场内实景", detail: `<div class="venue-grid">
                         <div class="venue-item"><img src="stage1.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 1</div></div>
                         <div class="venue-item"><img src="stage2.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 2</div></div>
                         <div class="venue-item"><img src="restroomA.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 A</div></div>
@@ -344,27 +272,23 @@
             }
         };
 
-function openMenu(key) {
+        function openMenu(key) {
             const data = config[key];
             if(!data) return;
-            
-            // 重置视图状态
             document.getElementById('qqView').style.display = 'none';
             document.getElementById('subLayer').style.display = 'none';
             document.getElementById('mainView').style.display = 'block';
             document.getElementById('menuTitle').innerText = data.title;
-            
             let html = '';
             data.items.forEach(item => {
                 if(item.detail.startsWith("link:")) {
                     const target = item.detail.split(":")[1];
                     html += `<div class="clickable-row" onclick="openMenu('${target}')">${item.label} <i class="fas fa-chevron-right"></i></div>`;
                 } else {
-                    // 彻底移除所有可能导致乱码的拼接字符
+                    // 这里已彻底修正，去除了多余的符号
                     html += `<div class="clickable-row" onclick="openSub('${data.title}', '${item.label}', \`${item.detail}\`)">${item.label}</div>`;
                 }
             });
-            
             document.getElementById('itemList').innerHTML = html;
             document.getElementById('overlay').style.display = 'flex';
         }
