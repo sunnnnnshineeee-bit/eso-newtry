@@ -262,40 +262,21 @@
                     { label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" }, 
                     { label: "二、招募须知", detail: "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲报名。<br>4.服装凡官方任意平台出现过即可。<br>5. 舞蹈可混剪，时间最短不低于3分钟，最长不超过8分钟。" }, 
                     { label: "三、报名流程", detail: "1. 加入舞台审核群：QQ群号10258850882.<br> 2.自行下载《Everstars舞台招募》了解招募须知、内容说明、审核规则、报名方式等详情。<br>3. 前往群公告《中央舞台预报名表》在线编辑表填写团队队名及预报名曲目。<br>4. 前往群文件中自行下载并填写《创意舞台报名表》<br>5. 提交审核材料<br>6. 提交成功后如24小时内未收到成功接收的邮件反馈，请各团队长立刻联系主舞台审核群管理" }, 
-                    // 1. 在 config 里面新增这个 guests 模块
-guests: {
-    title: "★ 审核嘉宾详情",
-    items: [
-        { 
-            label: "紫嘉儿", 
-            detail: `
-            <div class="guest-card">
-                <img src="zijiaer.png" class="guest-img">
-                <div class="guest-socials">
-                    <a href="https://b23.tv/8yRFkRW" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
-                    <a href="https://v.douyin.com/MsrDwIVQqlg/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
-                    <a href="https://xhslink.com/m/5rGPKHXQ4fU" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
-                </div>
-            </div>` 
-        },
-        { 
-            label: "沉煜", 
-            detail: `
-            <div class="guest-card">
-                <img src="chenyu.png" class="guest-img">
-                <div class="guest-socials">
-                    <a href="https://b23.tv/YiucT3A" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
-                    <a href="https://v.douyin.com/yZPZPL2SolY/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
-                    <a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
-                </div>
-            </div>` 
-        }
-    ]
-},
-
-// 2. 修改原本 mainstage 里的第四行
-// 找到 mainstage 里的这一行并替换：
-{ label: "四、审核嘉宾介绍", detail: "link:guests" }
+                    { label: "四、审核嘉宾介绍", detail: "link:guests" }
+                ] 
+            },
+            guests: {
+                title: "★ 审核嘉宾详情",
+                items: [
+                    { 
+                        label: "紫嘉儿", 
+                        detail: `<div class="guest-card"><img src="zijiaer.png" class="guest-img"><div class="guest-socials"><a href="https://b23.tv/8yRFkRW" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a><a href="https://v.douyin.com/MsrDwIVQqlg/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a><a href="https://xhslink.com/m/5rGPKHXQ4fU" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a></div></div>` 
+                    },
+                    { 
+                        label: "沉煜", 
+                        detail: `<div class="guest-card"><img src="chenyu.png" class="guest-img"><div class="guest-socials"><a href="https://b23.tv/YiucT3A" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a><a href="https://v.douyin.com/yZPZPL2SolY/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a><a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a></div></div>` 
+                    }
+                ]
                  
                 ] 
             },
