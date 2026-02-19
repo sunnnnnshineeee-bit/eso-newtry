@@ -121,6 +121,32 @@
         .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 22px; color: #ccc; background:none; border:none; }
         .site-footer { margin-top: 30px; text-align: center; font-size: 10px; color: #b388ff; line-height: 1.6; padding: 0 10px; }
         .qq-qrcode { width: 160px; height: 160px; border-radius: 15px; margin-bottom: 15px; }
+
+        /* 场地预览图网格布局 */
+.venue-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 两列布局 */
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+.venue-item {
+    width: 100%;
+    text-align: center;
+}
+.venue-img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.venue-label {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 4px;
+}
     </style>
 </head>
 <body>
@@ -221,19 +247,19 @@
                     { label: "二、申请流程", detail: "1. 加入QQ群：<b>1081280182</b>。<br>2. 提交申请至邮箱。<br>3. 提交成功后如24小时内未收到成功接收 of 邮件反馈，请各负责人立刻联系同人摊位审核群同人UGC管理。<br>4. 在审核过程中，部分作者会收到来自主办的私信或邮件，提出一些审核中发现需要完善的信息或进行信息核验。" }
                 ] 
             },
-          location: { 
-                title: "★ 场地指引", 
-                items: [
-                    { label: "场馆地址", detail: "<b>上海摩登天空 Modern Sky LAB</b>" }, 
-                    { label: "预览图", detail: `<div class="venue-grid">
-                        <div class="venue-item"><img src="stage1.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 1</div></div>
-                        <div class="venue-item"><img src="stage2.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 2</div></div>
-                        <div class="venue-item"><img src="restroomA.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 A</div></div>
-                        <div class="venue-item"><img src="restroomB.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 B</div></div>
-                    </div>` }
-                ] 
-            },
-            info: { title: "★ 活动介绍", items: [{ label: "主题: CALL", detail: "我们是以制作人为中心，结合偶像梦幻祭IP偶像文化，衍生的同人漫展ONLY企划“Evermore Star！！！未读章节。<br>你入坑偶像梦幻祭多久了？<br>那些你为他打的协力、那些你反复播放的巡演舞台、那些你d过的卡池、买过的谷子、搞过的推活庆祝的生日、追过的线下应援；<br>这些，都是故事里，不可或缺的篇章。<br>所以，这是一篇由你献上的未读章节，无论你是制作人还是偶像，都是故事的主角。<br>我们因对小偶像们的热爱而相遇，这份热爱成就着彼此。在 EvermoreStars的舞台，我们将一同为梦想和未来充满期待，因为永远都有新的惊喜、邂逅、奇迹即将发生。<br>“你注视的光芒，因你而闪耀。" }] },
+         location: {  
+    title: "★ 场地指引",  
+    items: [
+        { label: "场馆地址", detail: "<b>上海虹口区瑞虹路188号月亮湾3楼 Morden Sky LAB 摩登天空</b><br><b>交通方式</b>：1.地铁四号线临平路站1、2号出口，步行十分钟左右<br>2.地铁十号线邮电新村站2号出口，步行十分钟左右。<br>3.十四路公交车四平路新港路站，步行10分钟左右" },  
+        { label: "", detail: `<div class="venue-grid">
+            <div class="venue-item"><img src="stage1.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 1</div></div>
+            <div class="venue-item"><img src="stage2.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 2</div></div>
+            <div class="venue-item"><img src="restroomA.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 A</div></div>
+            <div class="venue-item"><img src="restroomB.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">休息室 B</div></div>
+        </div>` }
+    ]  
+},
+            info: { title: "★ INFO", items: [{ label: "活动介绍", detail: "我们是以制作人为中心，结合偶像梦幻祭IP偶像文化，衍生的同人漫展ONLY企划“Evermore Star！！！未读章节。<br>你入坑偶像梦幻祭多久了？<br>那些你为他打的协力、那些你反复播放的巡演舞台、那些你d过的卡池、买过的谷子、搞过的推活庆祝的生日、追过的线下应援；<br>这些，都是故事里，不可或缺的篇章。<br>所以，这是一篇由你献上的未读章节，无论你是制作人还是偶像，都是故事的主角。<br>我们因对小偶像们的热爱而相遇，这份热爱成就着彼此。在 EvermoreStars的舞台，我们将一同为梦想和未来充满期待，因为永远都有新的惊喜、邂逅、奇迹即将发生。<br>“你注视的光芒，因你而闪耀。”" }] },
             evermore: { title: "★ 互动玩法", items: [{ label: "一、互动应援", detail: "敬请期待" }, { label: "二、互动游戏设计", detail: "敬请期待" }, { label: "三、We Ensemble", detail: "敬请期待" }] },
             special: { title: "★ 特殊招募", items: [{ label: "正在筹备", detail: "详情请关注官群。" }] },
             lineup: { 
