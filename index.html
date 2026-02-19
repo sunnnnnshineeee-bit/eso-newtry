@@ -147,52 +147,51 @@
     color: #888;
     margin-top: 4px;
 }
-      /* 嘉宾卡片容器 */
+   /* 嘉宾卡片：垂直布局 */
 .guest-card {
     background: #fff;
-    border-radius: 20px;
+    border-radius: 15px;
     padding: 15px;
     border: 1px solid #fce4ec;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* 从上往下排列 */
     align-items: center;
+    gap: 12px;
 }
 
-/* 顶部标题行：名字和图标横向排列 */
-.guest-header-row {
+/* 顶部名字和图标横排 */
+.guest-header-top {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px; /* 名字和图标之间的间距 */
-    margin-bottom: 12px;
+    gap: 12px;
     width: 100%;
 }
 
-.guest-name-title {
+.guest-name-blue {
     color: var(--es-blue);
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: bold;
-    margin: 0;
 }
 
-/* 社交图标缩小并横排 */
-.guest-socials-small {
+.guest-socials-mini {
     display: flex;
     gap: 10px;
 }
 
-.guest-socials-small a {
-    font-size: 0.9rem; /* 图标小一点 */
-    color: #ccc;
+.guest-socials-mini a {
+    font-size: 1rem;
+    color: #ddd; /* 初始颜色较浅，保持清爽 */
 }
 
-/* 统一图片尺寸：缩小并保持比例 */
-.guest-img-fixed {
-    width: 180px;  /* 统一宽度，你可以根据需要调整 */
-    height: 180px; /* 统一高度 */
-    object-fit: cover; /* 自动裁剪，防止图片拉伸变形 */
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+/* 长方形图片样式（模仿卡面） */
+.guest-img-rect {
+    width: 100%;       /* 宽度占满卡片 */
+    max-width: 320px;  /* 限制最大宽度防止过大 */
+    aspect-ratio: 4 / 3; /* 强制长方形比例 */
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
     </style>
 </head>
@@ -307,7 +306,7 @@
                                             <a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
                                         </div>
                                     </div>
-                                    <img src="chenyu.png" class="guest-img-fixed">
+                                    <img src="chenyu.jpg" class="guest-img-fixed">
                                  </div>` 
                     }
                 ]
@@ -353,26 +352,26 @@
             }
         };
 
- function openMenu(key) {
-            const data = config[key];
-            if(!data) return;
-            document.getElementById('qqView').style.display = 'none';
-            document.getElementById('subLayer').style.display = 'none';
-            document.getElementById('mainView').style.display = 'block';
-            document.getElementById('menuTitle').innerText = data.title;
-            let html = '';
-            data.items.forEach(item => {
-                if(item.detail.startsWith("link:")) {
-                    const target = item.detail.split(":")[1];
-                    html += `<div class="clickable-row" onclick="openMenu('${target}')">${item.label} <i class="fas fa-chevron-right"></i></div>`;
-                } else {
-                    // 关键点：这里直接传 item.label，不要在字符串里写多余的 ")> 
-                    html += `<div class="clickable-row" onclick="openSub('${data.title}', '${item.label}', \`${item.detail}\`)">${item.label}</div>`;
-                }
-            });
-            document.getElementById('itemList').innerHTML = html;
-            document.getElementById('overlay').style.display = 'flex';
+function openMenu(key) {
+    const data = config[key];
+    if(!data) return;
+    document.getElementById('qqView').style.display = 'none';
+    document.getElementById('subLayer').style.display = 'none';
+    document.getElementById('mainView').style.display = 'block';
+    document.getElementById('menuTitle').innerText = data.title;
+    let html = '';
+    data.items.forEach(item => {
+        if(item.detail.startsWith("link:")) {
+            const target = item.detail.split(":")[1];
+            html += `<div class="clickable-row" onclick="openMenu('${target}')">${item.label} <i class="fas fa-chevron-right"></i></div>`;
+        } else {
+            // 重点修复：去掉了之前可能存在的 \`)"> 乱码字符
+            html += `<div class="clickable-row" onclick="openSub('${data.title}', '${item.label}', \`${item.detail}\`)">${item.label}</div>`;
         }
+    });
+    document.getElementById('itemList').innerHTML = html;
+    document.getElementById('overlay').style.display = 'flex';
+}
 
         function openSub(p, t, c) {
             document.getElementById('mainView').style.display = 'none';
