@@ -217,24 +217,24 @@
                 title: "★ 审核嘉宾详情",
                 items: [
                     { 
-                        label: "紫嘉儿 · 社交账号", 
+                        label: "紫嘉儿", 
                         isGuest: true, 
                         name: "紫嘉儿", 
                         bili: "8yRFkRW", dy: "MsrDwIVQqlg", xhs: "5rGPKHXQ4fU" 
                     },
                     { 
-                        label: "紫嘉儿 · 形象展示", 
+                        label: "照片", 
                         isImg: true, 
                         src: "zijiaer.png" 
                     },
                     { 
-                        label: "沉煜 · 社交账号", 
+                        label: "沉煜", 
                         isGuest: true, 
                         name: "沉煜", 
                         bili: "YiucT3A", dy: "yZPZPL2SolY", xhs: "6LakawdTSAy" 
                     },
                     { 
-                        label: "沉煜 · 形象展示", 
+                        label: "照片", 
                         isImg: true, 
                         src: "chenyu.jpg" 
                     }
@@ -281,35 +281,54 @@
             }
         };
 
-        function openMenu(key) {
-            const data = config[key];
-            if(!data) return;
-            document.getElementById('qqView').style.display = 'none';
-            document.getElementById('subLayer').style.display = 'none';
-            document.getElementById('mainView').style.display = 'block';
-            document.getElementById('menuTitle').innerText = data.title;
-            
-            const listEl = document.getElementById('itemList');
-            listEl.innerHTML = '';
+       function openMenu(key) {
+    const data = config[key];
+    if(!data) return;
+    document.getElementById('qqView').style.display = 'none';
+    document.getElementById('subLayer').style.display = 'none';
+    document.getElementById('mainView').style.display = 'block';
+    document.getElementById('menuTitle').innerText = data.title;
+    
+    const listEl = document.getElementById('itemList');
+    listEl.innerHTML = '';
 
-            data.items.forEach((item, index) => {
-                const row = document.createElement('div');
-                row.className = 'clickable-row';
-                row.innerHTML = `<span>${item.label}</span><i class="fas fa-chevron-right" style="color:#eee"></i>`;
-                
-                // 彻底解决 onclick 乱码：直接使用绑定，不写内联字符串
-                row.onclick = function() {
-                    if(item.detail && item.detail.startsWith("link:")) {
-                        openMenu(item.detail.split(":")[1]);
-                    } else {
-                        showDetail(data.title, item);
-                    }
-                };
-                listEl.appendChild(row);
-            });
-            
-            document.getElementById('overlay').style.display = 'flex';
+    data.items.forEach((item) => {
+        const row = document.createElement('div');
+        
+        // --- 核心改动：如果是嘉宾社交账号，直接在一级列表平铺渲染 ---
+        if(item.isGuest) {
+            row.className = 'guest-social-row'; // 使用你 style 里写好的样式
+            row.style.cursor = 'default';
+            row.innerHTML = `
+                <span class="guest-name-label">${item.name}</span>
+                <div class="guest-icon-group">
+                    <a href="https://space.bilibili.com/${item.bili}" target="_blank"><i class="fab fa-bilibili"></i></a>
+                    <a href="https://v.douyin.com/${item.dy}" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://xhslink.com/m/${item.xhs}" target="_blank"><i class="fas fa-camera-retro"></i></a>
+                </div>`;
+        } 
+        // --- 核心改动：如果是嘉宾图片，也直接在一级列表平铺 ---
+        else if(item.isImg) {
+            row.style.marginBottom = '15px';
+            row.innerHTML = `<img src="${item.src}" class="guest-full-image">`;
+        } 
+        // --- 普通按钮（跳转 link 或 进详情页） ---
+        else {
+            row.className = 'clickable-row';
+            row.innerHTML = `<span>${item.label}</span><i class="fas fa-chevron-right" style="color:#eee"></i>`;
+            row.onclick = function() {
+                if(item.detail && item.detail.startsWith("link:")) {
+                    openMenu(item.detail.split(":")[1]);
+                } else {
+                    showDetail(data.title, item);
+                }
+            };
         }
+        listEl.appendChild(row);
+    });
+    
+    document.getElementById('overlay').style.display = 'flex';
+}
 
         function showDetail(parentTitle, item) {
             document.getElementById('mainView').style.display = 'none';
@@ -347,4 +366,5 @@
         }
     </script>
 </body>
+</html>
 </html>
