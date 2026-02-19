@@ -147,6 +147,38 @@
     color: #888;
     margin-top: 4px;
 }
+        /* 嘉宾卡片样式 */
+.guest-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #f0f0f0;
+}
+.guest-img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    display: block;
+}
+.guest-name {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--es-pink);
+    text-align: center;
+    margin-bottom: 10px;
+}
+.guest-socials {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.guest-socials a {
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+}
+.guest-socials a:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
@@ -229,7 +261,27 @@
                     { label: "一、舞台设备详情", detail: "<b>舞台尺寸：</b>12.85m * 8.03m<br><b>LED屏：</b>9.6m * 6.5m (1984*1312)<br><b>其他：</b>专业灯光、音响、雾机(2台)" }, 
                     { label: "二、招募须知", detail: "1. 队伍可重复，曲目不可重复。<br>2. 队长须成年，演出人员须年满16周岁。<br>3. 仅接受ES官方歌曲报名。<br>4.服装凡官方任意平台出现过即可。<br>5. 舞蹈可混剪，时间最短不低于3分钟，最长不超过8分钟。" }, 
                     { label: "三、报名流程", detail: "1. 加入舞台审核群：QQ群号10258850882.<br> 2.自行下载《Everstars舞台招募》了解招募须知、内容说明、审核规则、报名方式等详情。<br>3. 前往群公告《中央舞台预报名表》在线编辑表填写团队队名及预报名曲目。<br>4. 前往群文件中自行下载并填写《创意舞台报名表》<br>5. 提交审核材料<br>6. 提交成功后如24小时内未收到成功接收的邮件反馈，请各团队长立刻联系主舞台审核群管理" }, 
-                    { label: "四、审核嘉宾介绍", detail: "本届主舞台审核嘉宾阵容即将公开，敬请期待。" }
+                    { label: "四、审核嘉宾介绍", detail: `
+    <div class="guest-card">
+        <img src="zijiaer.png" class="guest-img">
+        <div class="guest-name">紫嘉儿</div>
+        <div class="guest-socials">
+            <a href="https://b23.tv/8yRFkRW" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
+            <a href="https://v.douyin.com/MsrDwIVQqlg/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
+            <a href="https://xhslink.com/m/5rGPKHXQ4fU" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
+        </div>
+    </div>
+    
+    <div class="guest-card">
+        <img src="chenyu.png" class="guest-img">
+        <div class="guest-name">沉煜</div>
+        <div class="guest-socials">
+            <a href="https://b23.tv/YiucT3A" target="_blank" class="social-link bili"><i class="fab fa-bilibili"></i></a>
+            <a href="https://v.douyin.com/yZPZPL2SolY/" target="_blank" class="social-link dy"><i class="fab fa-tiktok"></i></a>
+            <a href="https://xhslink.com/m/6LakawdTSAy" target="_blank" class="social-link xhs"><i class="fas fa-camera-retro"></i></a>
+        </div>
+    </div>
+` }
                 ] 
             },
             creative: { 
@@ -250,7 +302,7 @@
          location: {  
     title: "★ 场地指引",  
     items: [
-        { label: "场馆地址", detail: "<b>上海虹口区瑞虹路188号月亮湾3楼 Morden Sky LAB 摩登天空</b><br><b>交通方式</b>：1.地铁四号线临平路站1、2号出口，步行十分钟左右<br>2.地铁十号线邮电新村站2号出口，步行十分钟左右。<br>3.十四路公交车四平路新港路站，步行10分钟左右" },  
+        { label: "场馆地址", detail: "<b>上海虹口区瑞虹路188号月亮湾3楼 Morden Sky LAB 摩登天空</b><br><b>交通方式</b>：1.地铁四号线临平路站1、2号出口，步行10分钟左右<br>2.地铁十号线邮电新村站2号出口，步行10分钟左右。<br>3.十四路公交车四平路新港路站，步行10分钟左右" },  
         { label: "", detail: `<div class="venue-grid">
             <div class="venue-item"><img src="stage1.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 1</div></div>
             <div class="venue-item"><img src="stage2.png" class="venue-img" onclick="window.open(this.src)"><div class="venue-label">舞台全景 2</div></div>
